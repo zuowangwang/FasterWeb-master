@@ -183,20 +183,17 @@ export default {
     Hooks,
     Report,
   },
-  props: {
-    host: {
-      require: false,
-    },
-    nodeId: {
-      require: false,
-    },
-    project: {
-      require: false,
-    },
-    response: {
-        require: true
-    }
-  },
+  //   props: {
+  //     host: {
+  //       require: false,
+  //     },
+  //     nodeId: {
+  //       require: false,
+  //     },
+  //     project: {
+  //       require: false,
+  //     },
+  //   },
   mounted() {
     this.getTree();
     this.getConfig();
@@ -225,21 +222,23 @@ export default {
       this.updateTree(false);
     },
     updateTree(mode) {
-        this.$api.updateTree(this.treeId, {
-            ody: this.dataTree,
-            node: this.currentNode.id,
-            mode: mode,
-            type: 1
-        }).then(resp => {
-            if (resp['success']) {
-                this.dataTree = resp['tree'];
-                this.maxId = resp['max'];
-                this.$notify.success('更新成功')
-            } else {
-                this.$message.error(resp['msg']);
-                }
-            })
-        },
+      this.$api
+        .updateTree(this.treeId, {
+          ody: this.dataTree,
+          node: this.currentNode.id,
+          mode: mode,
+          type: 1,
+        })
+        .then((resp) => {
+          if (resp["success"]) {
+            this.dataTree = resp["tree"];
+            this.maxId = resp["max"];
+            this.$notify.success("更新成功");
+          } else {
+            this.$message.error(resp["msg"]);
+          }
+        });
+    },
     dialogBeforeClose() {
       this.dialogTableVisible = false;
     },
@@ -402,16 +401,6 @@ export default {
       }
     },
   },
-
-//   watch: {
-//     response: function () {
-//       this.name = this.response.body.name;
-//       this.method = this.response.body.method;
-//       this.url = this.response.body.url;
-//       this.times = this.response.body.times;
-//       this.id = this.response.id;
-//     },
-//   },
   data() {
     return {
       configOptions: [],
@@ -423,6 +412,70 @@ export default {
       name: "",
       url: "",
       id: "",
+      response: {
+        id: "",
+        body: {
+          name: "",
+          times: 1,
+          url: "",
+          method: "POST",
+          header: [
+            {
+              key: "",
+              value: "",
+              desc: "",
+            },
+          ],
+          request: {
+            data: [
+              {
+                key: "",
+                value: "",
+                desc: "",
+                type: 1,
+              },
+            ],
+            params: [
+              {
+                key: "",
+                value: "",
+                desc: "",
+                type: 1,
+              },
+            ],
+            json_data: "",
+          },
+          validate: [
+            {
+              expect: "",
+              actual: "",
+              comparator: "equals",
+              type: 1,
+            },
+          ],
+          variables: [
+            {
+              key: "",
+              value: "",
+              desc: "",
+              type: 1,
+            },
+          ],
+          extract: [
+            {
+              key: "",
+              value: "",
+              desc: "",
+            },
+          ],
+          hooks: [
+            {
+              setup: "",
+              teardown: "",
+            },
+          ],
+        },
+      },
       header: [],
       request: {},
       extract: [],
