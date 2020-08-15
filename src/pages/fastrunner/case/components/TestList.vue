@@ -16,7 +16,7 @@
 
         <el-container>
             <el-main style="padding: 0; margin-left: 10px; margin-bottom: 10px">
-                <div style="position: fixed; bottom: 0; right:0; left: 460px; top: 160px">
+                <div style="position: fixed; bottom: 0; right:0; left: 460px; top: 100px">
                     <el-dialog
                         v-if="dialogTableVisible"
                         :visible.sync="dialogTableVisible"
@@ -126,7 +126,7 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column label="用例类型" width="100px" align="center">
+                        <el-table-column label="用例类型" width="200" align="center">
                             <template slot-scope="scope">
                                 <el-tag v-if="scope.row.tag=== 1">冒烟用例</el-tag>
                                 <el-tag v-if="scope.row.tag=== 2" type="success">集成用例</el-tag>
@@ -134,13 +134,13 @@
                             </template>
                         </el-table-column>
 
-                        <el-table-column label="更新时间" width="160px" align="center">
+                        <el-table-column label="更新时间" width="200px" align="center">
                             <template slot-scope="scope">
                                 <div>{{scope.row.update_time|datetimeFormat}}</div>
                             </template>
                         </el-table-column>
 
-                        <el-table-column width="150px">
+                        <el-table-column width="250px">
                             <template slot-scope="scope">
                                 <el-row v-show="currentRow === scope.row">
                                     <el-button
@@ -158,14 +158,7 @@
                                         title="运行"
                                         @click="handleRunTest(scope.row.id, scope.row.name)"
                                     ></el-button>
-
-                                    <el-popover
-                                        style="margin-left: 10px"
-                                        v-model="scope.row.visible"
-
-                                        >
-                                        <div style="text-align: center">
-                                            <el-button
+                                     <el-button
                                                 type="success"
                                                 icon="el-icon-document"
                                                 circle size="mini"
@@ -189,10 +182,6 @@
                                                 @click="handleDelTest(scope.row.id)"
                                             >
                                             </el-button>
-                                        </div>
-                                        <el-button icon="el-icon-more" title="更多" circle size="mini" slot="reference" @click="scope.row.visible=!scope.row.visible"></el-button>
-                                    </el-popover>
-
                                 </el-row>
                             </template>
                         </el-table-column>

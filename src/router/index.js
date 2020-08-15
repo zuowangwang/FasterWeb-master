@@ -16,6 +16,7 @@ import HostAddress from '@/pages/variables/HostAddress'
 import TestData from "@/pages/testdata/TestData";
 import TaskMeta from "@/pages/reports/TaskMeta";
 //import Register from '@/pages/auth/Register'
+import helpMenu from '@/pages/home/components/HelpMenu'
 Vue.use(Router);
 
 export default new Router({
@@ -93,6 +94,15 @@ export default new Router({
                     component: RecordApis,
                     meta: {
                         title: 'API调试',
+                        requireAuth: true
+                    }
+                },
+                {
+                    name: 'helpMenu',
+                    path: 'help_menu/:id',
+                    component: helpMenu,
+                    meta: {
+                        title: '帮助',
                         requireAuth: true
                     }
                 },

@@ -53,6 +53,12 @@
             </el-menu-item>
             </div>
         </el-submenu>
+        <el-menu-item :index="help_menu.url" :key="help_menu.url" :disabled="$store.state.routerName === 'ProjectList'">
+            <template slot="title">
+                <i class="el-icon-help"></i>
+                {{help_menu.name}}
+            </template>
+        </el-menu-item>
     </el-menu>
 </template>
 
@@ -80,7 +86,8 @@
                 report_menu:[
                     {name: "历史报告", url: "Reports", code: "el-icon-reading"},
                     {name: "异步回执", url: "TaskMeta", code: "el-icon-pie-chart"}
-                ]
+                ],
+                help_menu:{name: "帮助", url: "helpMenu", code: "el-icon-reading"},
             }
         },
         methods:{

@@ -64,13 +64,9 @@
                     >
                     </el-input-number>
                 </el-tooltip>
-
             </div>
-
         </div>
-
         <div class="request">
-
             <el-dialog
                 v-if="dialogTableVisible"
                 :visible.sync="dialogTableVisible"
@@ -78,7 +74,6 @@
             >
                 <report :summary="summary"></report>
             </el-dialog>
-
             <el-tabs
                 style="margin-left: 20px;"
                 v-model="activeTag"
@@ -90,7 +85,6 @@
                         :header="response ? response.body.header: [] ">
                     </headers>
                 </el-tab-pane>
-
                 <el-tab-pane label="Request" name="second">
                     <request
                         :save="save"
@@ -99,7 +93,6 @@
                     >
                     </request>
                 </el-tab-pane>
-
                 <el-tab-pane label="Extract" name="third">
                     <extract
                         :save="save"
@@ -108,27 +101,22 @@
                     >
                     </extract>
                 </el-tab-pane>
-
                 <el-tab-pane label="Validate" name="fourth">
                     <validate
                         :save="save"
                         v-on:validate="handleValidate"
                         :validate="response ? response.body.validate: []"
                     >
-
                     </validate>
                 </el-tab-pane>
-
                 <el-tab-pane label="Variables" name="five">
                     <variables
                         :save="save"
                         v-on:variables="handleVariables"
                         :variables="response ? response.body.variables : []"
                     >
-
                     </variables>
                 </el-tab-pane>
-
                 <el-tab-pane label="Hooks" name="six">
                     <hooks
                         :save="save"
@@ -138,10 +126,8 @@
                     </hooks>
                 </el-tab-pane>
             </el-tabs>
-
         </div>
     </div>
-
 </template>
 
 <script>
@@ -186,7 +172,6 @@
                 this.save = !this.save;
                 this.run = true;
             },
-
             handleHeader(header) {
                 this.header = header;
             },
@@ -204,7 +189,6 @@
             },
             handleHooks(hooks) {
                 this.hooks = hooks;
-
                 if (!this.run) {
                     if (this.id === '') {
                         this.addAPI();
@@ -216,13 +200,11 @@
                     this.run = false;
                 }
             },
-
             validateData() {
                 if (this.url === '') {
                     this.$notify.error('接口请求地址不能为空');
                     return false;
                 }
-
                 if (this.name === '') {
                     this.$notify.error('接口名称不能为空');
                     return false;
@@ -306,7 +288,6 @@
                 }
             }
         },
-
         watch: {
             response: function () {
                 this.name = this.response.body.name;
@@ -361,6 +342,4 @@
         margin-top: 15px;
         border: 1px solid #ddd;
     }
-
-
 </style>

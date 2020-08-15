@@ -37,7 +37,7 @@
         <el-row :gutter="20">
           <!-- <el-col :span="12" style="margin-left: -35px">
           </el-col>-->
-          <el-col :span="12" style="margin-left: 35px">
+          <el-col :span="12" style="margin-left: 35px;float:right">
             <el-input
               style="width: 460px; text-align: center"
               placeholder="请输入测试用例名称"
@@ -60,13 +60,16 @@
       </div>
 
       <div v-show="!editTestStepActivate" style="margin-top: 10px; ">
-        <el-row :gutter="20">
-          <el-col :span="12">
+        <el-row :gutter="25">
+          <el-col
+            :span="12"
+          >
+          <div  style="border:2px solid rgb(184, 202, 213);padding:20px;height: 800px;position: relative;">
             <div
               v-for="(item,index) in apiData.results"
               draggable="true"
               @dragstart="currentAPI = JSON.parse(JSON.stringify(item))"
-              style="cursor: pointer; margin-top: 5px; overflow: auto"
+              style="cursor: pointer; margin-top: 5px; overflow: auto;"
               :key="index"
             >
               <div class="block block_post" v-if="item.method.toUpperCase() === 'POST' ">
@@ -111,10 +114,25 @@
                 <span class="block-summary-description">{{item.name}}</span>
               </div>
             </div>
+            </div>
+             <div style="float:right">
+              <el-pagination
+                :page-size="11"
+                v-show="apiData.count !== 0"
+                background
+                @current-change="handlePageChange"
+                :current-page.sync="currentPage"
+                layout="total, prev, pager, next, jumper"
+                :total="apiData.count"
+                style="margin-top: 5px; text-align: center"
+                small
+              ></el-pagination>
+            </div>
           </el-col>
           <el-col :span="12">
             <div
-              style="max-height: 600px; overflow: auto"
+              class="content-item"
+              style="overflow: auto"
               @drop="drop($event)"
               @dragover="allowDrop($event)"
             >
@@ -183,8 +201,14 @@
                 </draggable>
               </div>
             </div>
+          <div style="float:right;padding:5px">
+          <span>共计</span>
+          <span style="color:#409EFF">{{testData.length}}</span>
+          <span>个</span>
+        </div>
           </el-col>
         </el-row>
+        
       </div>
 
       <http-runner
@@ -196,20 +220,6 @@
         v-on:escEdit="editTestStepActivate = false"
         v-on:getNewBody="handleNewBody"
       ></http-runner>
-
-    <div style="float:right;margin-top:20px;margin-right:40px;">
-      <el-pagination
-        :page-size="11"
-        v-show="apiData.count !== 0"
-        background
-        @current-change="handlePageChange"
-        :current-page.sync="currentPage"
-        layout="total, prev, pager, next, jumper"
-        :total="apiData.count"
-        style="margin-top: 5px; text-align: center"
-        small
-      ></el-pagination>
-    </div>
     </el-main>
   </el-container>
 </template>
@@ -499,9 +509,16 @@ export default {
 
 <style scoped>
 .test-list {
-  height: 590px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  width: 100%;
 }
-
+.content-item {
+  border: 2px solid rgb(184, 202, 213);
+  padding: 20px;
+  height: 800px;
+  position: relative;
+}
 .block_test {
   margin-top: 5px;
   border: 1px solid #49cc90;

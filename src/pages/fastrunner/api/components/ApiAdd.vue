@@ -161,63 +161,6 @@
         </el-tabs>
       </div>
     </div>
-    <!-- 弹出层选择目录 -->
-
-    <!-- <el-dialog title="收货地址" :visible.sync="dialogFormVisible">
-            <el-main style="padding: 0;">
-                <api-body
-                    v-show="addAPIFlag"
-                    :nodeId="currentNode.id"
-                    :project="$route.params.id"
-                    :response="response"
-                    v-on:addSuccess="handleAddSuccess"
-                    :config="currentConfig"
-                    :host="currentHost"
-                >
-                </api-body>
-                <api-list
-                    v-show="!addAPIFlag"
-                    v-on:api="handleAPI"
-                    :node="currentNode !== '' ? currentNode.id : '' "
-                    :project="$route.params.id"
-                    :config="currentConfig"
-                    :host="currentHost"
-                    :del="del"
-                    :back="back"
-                    :run="run"
-                >
-                </api-list>
-
-            </el-main>
-    </el-dialog>-->
-    <!-- <el-container>
-            <el-main style="padding: 0;">
-                <api-body
-                    v-show="addAPIFlag"
-                    :nodeId="currentNode.id"
-                    :project="$route.params.id"
-                    :response="response"
-                    v-on:addSuccess="handleAddSuccess"
-                    :config="currentConfig"
-                    :host="currentHost"
-                >
-                </api-body>
-
-                <api-list
-                    v-show="!addAPIFlag"
-                    v-on:api="handleAPI"
-                    :node="currentNode !== '' ? currentNode.id : '' "
-                    :project="$route.params.id"
-                    :config="currentConfig"
-                    :host="currentHost"
-                    :del="del"
-                    :back="back"
-                    :run="run"
-                >
-                </api-list>
-
-            </el-main>
-    </el-container>-->
   </el-container>
 </template>
 
@@ -240,7 +183,6 @@ export default {
     Hooks,
     Report,
   },
-
   props: {
     host: {
       require: false,
@@ -252,8 +194,8 @@ export default {
       require: false,
     },
     response: {
-      require: true,
-    },
+        require: true
+    }
   },
   mounted() {
     this.getTree();
@@ -282,6 +224,22 @@ export default {
     handleDragEnd() {
       this.updateTree(false);
     },
+    updateTree(mode) {
+        this.$api.updateTree(this.treeId, {
+            ody: this.dataTree,
+            node: this.currentNode.id,
+            mode: mode,
+            type: 1
+        }).then(resp => {
+            if (resp['success']) {
+                this.dataTree = resp['tree'];
+                this.maxId = resp['max'];
+                this.$notify.success('更新成功')
+            } else {
+                this.$message.error(resp['msg']);
+                }
+            })
+        },
     dialogBeforeClose() {
       this.dialogTableVisible = false;
     },
@@ -445,15 +403,15 @@ export default {
     },
   },
 
-  watch: {
-    response: function () {
-      this.name = this.response.body.name;
-      this.method = this.response.body.method;
-      this.url = this.response.body.url;
-      this.times = this.response.body.times;
-      this.id = this.response.id;
-    },
-  },
+//   watch: {
+//     response: function () {
+//       this.name = this.response.body.name;
+//       this.method = this.response.body.method;
+//       this.url = this.response.body.url;
+//       this.times = this.response.body.times;
+//       this.id = this.response.id;
+//     },
+//   },
   data() {
     return {
       configOptions: [],

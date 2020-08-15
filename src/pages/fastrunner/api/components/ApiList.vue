@@ -3,7 +3,7 @@
         <el-header style="padding: 0; height: 50px;">
             <div style=" padding-left: 10px;">
                 <el-row :gutter="50">
-                    <el-col :span="1">
+                    <el-col :span="0.5">
                         <el-checkbox
                             v-if="apiData.count > 0"
                             v-model="checked"
@@ -12,14 +12,15 @@
                         </el-checkbox>
                     </el-col>
 
-                    <el-col :span="7" v-if="apiData.count > 11" style="margin-left: 0px">
+                    <el-col :span="7"  style="margin-left: 0px">
                         <el-input placeholder="请输入接口名称" clearable v-model="search">
                             <el-button slot="append" icon="el-icon-search" @click="getAPIList"></el-button>
                         </el-input>
                     </el-col>
 
-                    <!-- <el-col :span="7" style="margin-left: -10px">
-                    </el-col> -->
+                    <el-col :span="7" style="margin-left: -10px">
+                        <el-button type="primary" size="medium" @click="closeList">清空</el-button>
+                    </el-col>
 
                 </el-row>
             </div>
@@ -394,6 +395,20 @@
             },
             // 查询api列表
             getAPIList() {
+                this.$api.apiList({
+                    params: {
+                        node: this.node,
+                        project: this.project,
+                        search: this.search,
+                        page: this.currentPage
+                    }
+                }).then(res => {
+                    this.apiData = res;
+                    this.loading = false;
+                })
+            },
+            closeList(){
+                this.search=''
                 this.$api.apiList({
                     params: {
                         node: this.node,
