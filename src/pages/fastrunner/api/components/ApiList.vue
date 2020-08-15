@@ -18,19 +18,8 @@
                         </el-input>
                     </el-col>
 
-                    <el-col :span="7" style="margin-left: -10px">
-                        <el-pagination
-                            style="margin-top: 5px;"
-                            :page-size="11"
-                            v-show="apiData.count !== 0 "
-                            background
-                            @current-change="handleCurrentChange"
-                            :current-page.sync="currentPage"
-                            layout="total, prev, pager, next, jumper"
-                            :total="apiData.count"
-                        >
-                        </el-pagination>
-                    </el-col>
+                    <!-- <el-col :span="7" style="margin-left: -10px">
+                    </el-col> -->
 
                 </el-row>
             </div>
@@ -221,6 +210,19 @@
                         </el-table-column>
 
                     </el-table>
+                    <div style="float:right;margin-top:20px;margin-right:40px">
+                        <el-pagination
+                            style="margin-top: 5px;"
+                            :page-size="11"
+                            v-show="apiData.count !== 0 "
+                            background
+                            @current-change="handleCurrentChange"
+                            :current-page.sync="currentPage"
+                            layout="total, prev, pager, next, jumper"
+                            :total="apiData.count"
+                        >
+                        </el-pagination>
+                        </div>
                 </div>
 
             </el-main>

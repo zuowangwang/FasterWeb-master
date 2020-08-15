@@ -8,18 +8,8 @@
                             <el-button slot="append" icon="el-icon-search" @click="getTestList"></el-button>
                         </el-input>
                     </el-col>
-                    <el-col :span="7">
-                        <el-pagination
-                            @current-change="handleCurrentChange"
-                            :current-page.sync="currentPage"
-                            :page-size="11"
-                            v-show="testData.count !== 0 "
-                            background
-                            layout="total, prev, pager, next, jumper"
-                            :total="testData.count"
-                        >
-                        </el-pagination>
-                    </el-col>
+                    <!-- <el-col :span="7">
+                    </el-col> -->
                 </el-row>
             </div>
         </el-header>
@@ -207,6 +197,18 @@
                             </template>
                         </el-table-column>
                     </el-table>
+                    <div style="float:right;margin-top:20px;margin-right:40px;">
+                        <el-pagination
+                            @current-change="handleCurrentChange"
+                            :current-page.sync="currentPage"
+                            :page-size="11"
+                            v-show="testData.count !== 0 "
+                            background
+                            layout="total, prev, pager, next, jumper"
+                            :total="testData.count"
+                        >
+                        </el-pagination>
+                    </div>
                 </div>
             </el-main>
 

@@ -35,22 +35,8 @@
         </el-header>
 
         <el-container>
-            <el-header v-if="!addTasks" style="padding: 0; height: 50px; margin-top: 10px">
-                <div style="padding-top: 8px; padding-left: 30px;">
-                    <el-pagination
-                        :page-size="11"
-                        v-show="tasksData.count !== 0 "
-                        background
-                        @current-change="handleCurrentChange"
-                        :current-page.sync="currentPage"
-                        layout="total, prev, pager, next, jumper"
-                        :total="tasksData.count"
-                    >
-                    </el-pagination>
-                </div>
-            </el-header>
-            <el-main style="padding: 0; margin-left: 10px; margin-top: 10px;">
-                <div style="position: fixed; bottom: 0; right:0; left: 178px; top: 150px">
+            <el-main v-if="!addTasks" style="padding: 0; margin-left: 10px; margin-top: 10px;">
+                <div>
                     <el-table
                         style="width: 100%; overflow: auto;"
                         v-loading="loading"
@@ -93,9 +79,9 @@
                         <el-table-column width="80" label="状态">
                             <template slot-scope="scope">
                                 <el-switch
-                                    disabled
                                     v-model="scope.row.enabled"
                                     active-color="#13ce66"
+                                    @change='validatechange(scope.row.summary_kwargs,scope.row.enabled,scope.row.summary_args)'
                                     inactive-color="#ff4949">
                                 </el-switch>
                             </template>
@@ -150,6 +136,21 @@
                         </el-table-column>
                     </el-table>
                 </div>
+
+            <el-header v-if="!addTasks" style="padding: 0; height: 50px; margin-top: 10px">
+                <div style="float:right;margin-top:20px;margin-right:40px;">
+                    <el-pagination
+                        :page-size="11"
+                        v-show="tasksData.count !== 0 "
+                        background
+                        @current-change="handleCurrentChange"
+                        :current-page.sync="currentPage"
+                        layout="total, prev, pager, next, jumper"
+                        :total="tasksData.count"
+                    >
+                    </el-pagination>
+                </div>
+            </el-header>
             </el-main>
             <add-tasks
                 v-if="addTasks"
@@ -305,6 +306,19 @@
                 this.ruleForm["name"] = index_data.name;
                 this.ruleForm["switch"] = index_data.enabled;
                 this.args = index_data.summary_args;
+            },
+            validatechange(val,enabled,summary_args){
+                 var form = val;
+                 form['switch']=enabled
+                 form['name']=form.task_name
+                 form['data']=summary_args[0]
+                 this.scheduleId = summary_args[0].id
+                    this.$api.updateTask(this.scheduleId,{project:this.$route.params.id},form).then( resp =>{
+                        if (resp.status === 200) {
+                            this.$notify.success('更新定时任务成功');
+                            this.$emit("changeStatus", false);
+                        }
+                    })
             },
             changeStatus(value) {
                 this.getTaskList();

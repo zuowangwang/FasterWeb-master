@@ -75,7 +75,7 @@
                 config_menu:[
                     {name: "配置管理", url: "RecordConfig", code: "el-icon-setting"},
                     {name: "全局变量", url: "GlobalEnv", code: "el-icon-cloudy"},
-                    {name: "域名管理", url: "HostIP", code: "el-icon-news"}
+                    {name: "域名环境", url: "HostIP", code: "el-icon-news"}
                 ],
                 report_menu:[
                     {name: "历史报告", url: "Reports", code: "el-icon-reading"},

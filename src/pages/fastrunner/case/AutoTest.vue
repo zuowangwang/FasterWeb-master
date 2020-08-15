@@ -113,7 +113,7 @@
                         size="mini"
                         @click="del = !del"
                     ></el-button>
-                    &nbsp环境:
+                    &nbsp;环境:
                     <el-select
                         placeholder="请选择"
                         size="small"
@@ -128,7 +128,7 @@
                         </el-option>
                     </el-select>
                     <div style="display: inline" v-show="!addTestActivate">
-                        <span>&nbsp配置:</span>
+                        <span>&nbsp;配置:</span>
                         <el-select
                             placeholder="请选择"
                             size="small"

@@ -25,26 +25,14 @@
                                 <el-button slot="append" icon="el-icon-search" @click="getReportList" size="small" title="搜索"></el-button>
                             </el-input>
                         </el-col>
-
-                        <el-col :span="7">
-                            <el-pagination
-                                :page-size="11"
-                                v-show="reportData.count !== 0 "
-                                background
-                                @current-change="handleCurrentChange"
-                                :current-page.sync="currentPage"
-                                layout="total, prev, pager, next, jumper"
-                                :total="reportData.count"
-                            >
-                            </el-pagination>
-                        </el-col>
                     </el-row>
                 </div>
             </el-header>
 
             <el-container>
                 <el-main style="padding: 0; margin-left: 10px;">
-                    <div style="position: fixed; bottom: 0px; right:0; left: 178px; top: 150px;">
+                    <!-- <div style="position: fixed; bottom: 0px; right:0; left: 178px; top: 150px;"> -->
+                    <div>
                         <el-table
                             v-loading="loading"
                             size="medium"
@@ -53,7 +41,6 @@
                             :data="reportData.results"
                             :show-header="reportData.results.length !== 0 "
                             stripe
-                            height="600px"
                             @cell-mouse-enter="cellMouseEnter"
                             @cell-mouse-leave="cellMouseLeave"
                             @selection-change="handleSelectionChange"
@@ -67,7 +54,7 @@
                                 </template>
                             </el-table-column>
 
-                            <el-table-column label="报告名称">
+                            <el-table-column label="报告名称" >
                                 <template slot-scope="scope">
                                     <div>{{scope.row.name}}</div>
                                 </template>
@@ -82,7 +69,7 @@
                                 </template>
                             </el-table-column>
 
-                            <el-table-column label="测试时间" width="150" align="center">
+                            <el-table-column label="测试时间" width="200" align="center">
                                 <template slot-scope="scope">
                                     <div>{{scope.row.summary.time.start_at|timestampToTime}}</div>
                                 </template>
@@ -124,7 +111,7 @@
                                 </template>
                             </el-table-column>
 
-                            <el-table-column label="系统信息" width="135" align="center">
+                            <el-table-column label="系统信息" width="200" align="center">
                                 <template slot-scope="scope">
                                     <el-popover trigger="hover" placement="top">
                                         <p>{{ scope.row.summary.platform.python_version}}</p>
@@ -167,6 +154,18 @@
                                 </template>
                             </el-table-column>
                         </el-table>
+                        <div style="float:right;margin-top:20px;margin-right:40px">
+                            <el-pagination
+                                :page-size="11"
+                                v-show="reportData.count !== 0 "
+                                background
+                                @current-change="handleCurrentChange"
+                                :current-page.sync="currentPage"
+                                layout="total, prev, pager, next, jumper"
+                                :total="reportData.count"
+                            >
+                            </el-pagination>
+                        </div>
                     </div>
                 </el-main>
             </el-container>

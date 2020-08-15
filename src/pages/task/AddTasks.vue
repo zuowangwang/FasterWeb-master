@@ -95,55 +95,41 @@
                 </div>
             </el-aside>
             <el-main style="padding-top: 0px">
-                <div>
+                 <div>
+                 <span
+                    style="color: red">温馨提示：<br/>选择左侧相应用例节点显示可拖拽的用例<br/>从左边拖拽用例至此区域组成任务列表<br/>
+                    上下拖动此区域任务调整监控调用顺序<br/>
+               </span>
+            </div>
+                <div style="margin-top:20px">
                     <el-row :gutter="20">
                         <el-col :span="12">
-                            <el-pagination
-                                :page-size="11"
-                                v-show="suiteData.count !== 0"
-                                background
-                                @current-change="handlePageChange"
-                                :current-page.sync="currentPage"
-                                layout="total, prev, pager, next, jumper"
-                                :total="suiteData.count"
-                                style="text-align: center"
-                            >
-                            </el-pagination>
-                        </el-col>
-                        <el-col :span="12">
-                            <el-button size="small" type="primary" v-if="testData.length > 0" @click="saveTask">保存</el-button>
-                            <el-button size="small"   @click="next=false; listPageShow= true">返回</el-button>
-                        </el-col>
-                    </el-row>
-                </div>
-
-                <div>
-                    <el-row :gutter="20">
-                        <el-col :span="12">
+                        <div style="border:2px solid #3182bd;padding:20px;border-radius:21px;max-height: 600px;">
                             <div
                                 v-for="(item,index) in suiteData.results"
                                 draggable='true'
                                 @dragstart="currentSuite = JSON.parse(JSON.stringify(item))"
-                                style="cursor: pointer; margin-top: 10px; overflow: auto"
+                                style="cursor: pointer; margin-top: 10px; overflow: auto;"
                                 :key="index"
                             >
                                 <div class="block block_options">
                                     <span class="block-method block_method_options block_method_color">Case</span>
                                     <span class="block_name">{{item.name}}</span>
                                 </div>
+                                </div>
                             </div>
                         </el-col>
                         <el-col :span="12">
-
+                        <div style="border:2px solid #3182bd;padding:20px;border-radius:21px;">
                             <div style="max-height: 600px; overflow: auto"
                                  @drop='drop($event)'
                                  @dragover='allowDrop($event)'
                             >
-                                <span
+                                <!-- <span
                                     v-if="testData.length ===0"
                                     style="color: red">温馨提示：<br/>选择左侧相应用例节点显示可拖拽的用例<br/>从左边拖拽用例至此区域组成任务列表<br/>
                                     上下拖动此区域任务调整监控调用顺序
-                                </span>
+                                </span> -->
                                 <div class='test-list'>
                                     <draggable
                                         v-model="testData"
@@ -184,10 +170,31 @@
                                         </div>
                                     </draggable>
                                 </div>
-
+                            </div>
                             </div>
                         </el-col>
                     </el-row>
+                </div>
+                <div style="display: flex;flex-direction: column;justify-content: space-between;align-items: flex-end;height:100px;padding-right:40px;padding-top:20px">
+                    <div style="margin-right:40px;margin-bottom:20px;">
+                     <el-row :gutter="20">
+                        <el-col>
+                            <el-button size="small" type="primary" v-if="testData.length > 0" @click="saveTask">保存</el-button>
+                            <el-button size="small"   @click="next=false; listPageShow= true">返回</el-button>
+                        </el-col>
+                    </el-row>
+                    </div>
+                    <el-pagination
+                    :page-size="11"
+                    v-show="suiteData.count !== 0"
+                    background
+                    @current-change="handlePageChange"
+                    :current-page.sync="currentPage"
+                    layout="total, prev, pager, next, jumper"
+                    :total="suiteData.count"
+                    style="text-align: center"
+                    >
+                    </el-pagination>
                 </div>
             </el-main>
         </template>

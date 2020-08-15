@@ -85,25 +85,15 @@
                                 <el-button slot="append" icon="el-icon-search" @click="getVariablesList"></el-button>
                             </el-input>
                         </el-col>
-                        <el-col :span="7">
-                            <el-pagination
-                                :page-size="11"
-                                v-show="variablesData.count !== 0 "
-                                background
-                                @current-change="handleCurrentChange"
-                                :current-page.sync="currentPage"
-                                layout="total, prev, pager, next, jumper"
-                                :total="variablesData.count"
-                            >
-                            </el-pagination>
-                        </el-col>
+                        <!-- <el-col :span="7">
+                        </el-col> -->
                     </el-row>
                 </div>
             </el-header>
 
             <el-container>
                 <el-main style="padding: 0; margin-left: 10px; margin-top: 10px;">
-                    <div style="position: fixed; bottom: 0; right:0; left: 178px; top: 150px">
+                    <div style="position: fixed; bottom: 0; right:0; left: 178px; top: 100px">
                         <el-table
                             v-loading="loading"
                             element-loading-text="正在玩命加载"
@@ -173,6 +163,18 @@
                             </el-table-column>
 
                         </el-table>
+                        <div style="float:right;margin-top:20px;margin-right:40px;">
+                            <el-pagination
+                                :page-size="11"
+                                v-show="variablesData.count !== 0 "
+                                background
+                                @current-change="handleCurrentChange"
+                                :current-page.sync="currentPage"
+                                layout="total, prev, pager, next, jumper"
+                                :total="variablesData.count"
+                            >
+                            </el-pagination>
+                        </div>
                     </div>
                 </el-main>
             </el-container>

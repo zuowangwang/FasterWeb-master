@@ -1,11 +1,11 @@
 <template>
   <el-container>
-    <el-header style="background: #fff; padding: 0; height: 50px">
+    <!-- <el-header style="background: #fff; padding: 0; height: 50px">
       <div class="nav-api-header"></div>
-    </el-header>
+    </el-header>-->
     <el-container>
       <el-main style="padding: 0; margin-left: 10px;">
-        <div style="position: fixed; bottom: 0px; right:0; left: 178px; top: 150px;">
+        <div style="position: fixed; bottom: 0px; right:0; left: 178px; top: 65px;">
           <el-table
             v-loading="loading"
             size="medium"
@@ -14,7 +14,6 @@
             :data="TaskMetaData.results"
             :show-header="TaskMetaData.results.length !== 0 "
             stripe
-            height="600px"
             @cell-mouse-enter="cellMouseEnter"
             @cell-mouse-leave="cellMouseLeave"
             @selection-change="handleSelectionChange"
@@ -49,23 +48,25 @@
               </template>
             </el-table-column>
           </el-table>
-          <el-header style="padding-top: 10px;margin-left: 10px;">
+          <div style="float:right;margin-top:20px;margin-right:40px">
+            <el-pagination
+              :page-size="11"
+              v-show="TaskMetaData.count !== 0 "
+              background
+              @current-change="handleCurrentChange"
+              :current-page.sync="currentPage"
+              layout="total, prev, pager, next, jumper"
+              :total="TaskMetaData.count"
+            ></el-pagination>
+          </div>
+          <!-- <el-header style="padding-top: 10px;margin-left: 10px;">
             <div style="float:right;margin-right:40px">
               <el-row>
                 <el-col :span="7">
-                  <el-pagination
-                    :page-size="11"
-                    v-show="TaskMetaData.count !== 0 "
-                    background
-                    @current-change="handleCurrentChange"
-                    :current-page.sync="currentPage"
-                    layout="total, prev, pager, next, jumper"
-                    :total="TaskMetaData.count"
-                  ></el-pagination>
                 </el-col>
               </el-row>
             </div>
-          </el-header>
+          </el-header>-->
         </div>
       </el-main>
     </el-container>
@@ -131,6 +132,5 @@ export default {
   font-weight: bold;
   color: red;
   font-size: 12px;
-  
 }
 </style>
