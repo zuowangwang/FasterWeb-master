@@ -90,7 +90,7 @@
 
             <el-table-column width="200">
               <template slot-scope="scope">
-                <el-row v-show="currentRow === scope.row">
+                <el-row>
                   <el-button
                     type="info"
                     icon="el-icon-edit"

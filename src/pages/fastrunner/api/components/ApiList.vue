@@ -12,14 +12,14 @@
           </el-col>
 
           <el-col :span="7" style="margin-left: 0px">
-            <el-input placeholder="请输入接口名称" clearable v-model="search">
+            <el-input placeholder="请输入接口名称" clearable  v-model="search" @clear='closeList()'>
               <el-button slot="append" icon="el-icon-search" @click="getAPIList"></el-button>
             </el-input>
           </el-col>
 
-          <el-col :span="7" style="margin-left: -10px">
+          <!-- <el-col :span="7" style="margin-left: -10px">
             <el-button type="primary" size="medium" @click="closeList">清空</el-button>
-          </el-col>
+          </el-col> -->
         </el-row>
       </div>
     </el-header>
@@ -112,54 +112,54 @@
               <template slot-scope="scope">
                 <div class="block block_post" v-if="scope.row.method.toUpperCase() === 'POST' ">
                   <span class="block-method block_method_post block_method_color">POST</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
                   <span class="block-summary-description">{{scope.row.name}}</span>
+                  <span class="block-method block_url">{{scope.row.url}}</span>
                 </div>
 
                 <div class="block block_get" v-if="scope.row.method.toUpperCase() === 'GET' ">
                   <span class="block-method block_method_get block_method_color">GET</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
                   <span class="block-summary-description">{{scope.row.name}}</span>
+                  <span class="block-method block_url">{{scope.row.url}}</span>
                 </div>
 
                 <div class="block block_put" v-if="scope.row.method.toUpperCase() === 'PUT' ">
                   <span class="block-method block_method_put block_method_color">PUT</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
                   <span class="block-summary-description">{{scope.row.name}}</span>
+                  <span class="block-method block_url">{{scope.row.url}}</span>
                 </div>
 
                 <div class="block block_delete" v-if="scope.row.method.toUpperCase() === 'DELETE' ">
                   <span class="block-method block_method_delete block_method_color">DELETE</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
                   <span class="block-summary-description">{{scope.row.name}}</span>
+                  <span class="block-method block_url">{{scope.row.url}}</span>
                 </div>
 
                 <div class="block block_patch" v-if="scope.row.method.toUpperCase() === 'PATCH' ">
                   <span class="block-method block_method_patch block_method_color">PATCH</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
                   <span class="block-summary-description">{{scope.row.name}}</span>
+                  <span class="block-method block_url">{{scope.row.url}}</span>
                 </div>
 
                 <div class="block block_head" v-if="scope.row.method.toUpperCase() === 'HEAD' ">
                   <span class="block-method block_method_head block_method_color">HEAD</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
                   <span class="block-summary-description">{{scope.row.name}}</span>
+                  <span class="block-method block_url">{{scope.row.url}}</span>
                 </div>
 
                 <div
                   class="block block_options"
                   v-if="scope.row.method.toUpperCase()=== 'OPTIONS' "
                 >
-                  <span class="block-method block_method_options block_method_color">OPTIONS</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
                   <span class="block-summary-description">{{scope.row.name}}</span>
+                  <span class="block-method block_url">{{scope.row.url}}</span>
+                  <span class="block-method block_method_options block_method_color">OPTIONS</span>
                 </div>
               </template>
             </el-table-column>
 
             <el-table-column width="200">
               <template slot-scope="scope">
-                <el-row v-show="currentRow === scope.row">
+                <el-row>
                   <el-button
                     type="info"
                     icon="el-icon-edit"
@@ -491,4 +491,16 @@ export default {
 </script>
 
 <style scoped>
+.block-method{
+  width: 80px;
+}
+.block-summary-description{
+  width: 200px;
+  text-align: left;
+  padding-left: 20px;
+}
+.block_url{
+  flex: 1;
+  text-align: left;
+}
 </style>

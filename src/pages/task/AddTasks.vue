@@ -2,7 +2,7 @@
   <el-container>
     <template v-if="listPageShow">
       <el-main style="padding-top: 0;height: 600px; overflow: auto;">
-        <div style="margin-top: 10px;">
+        <div style="margin-top: 30px;">
           <el-form
             :model="ruleForm"
             :rules="rules"

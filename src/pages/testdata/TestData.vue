@@ -133,18 +133,6 @@
                   <el-button slot="append" icon="el-icon-search" @click="getTestdataList"></el-button>
                 </el-input>
               </el-col>
-              <el-col :span="7">
-                <!-- <el-pagination
-                                        :page-size="11"
-                                        v-show="testData.count !== 0 "
-                                        background
-                                        @current-change="handleCurrentChange"
-                                        :current-page.sync="currentPage"
-                                        layout="total, prev, pager, next, jumper"
-                                        :total="testData.count"
-                                    >
-                </el-pagination>-->
-              </el-col>
             </el-row>
           </div>
           <!-- </el-header>  -->

@@ -227,10 +227,10 @@
                 currentValidate: '',
                 currentRow: '',
                 tableData: [{
-                    expect: 200,
-                    actual: 'status_code',
+                    expect: '',
+                    actual: '',
                     comparator: 'eq',
-                    type: 2
+                    type: 1
                 }],
 
                 dataTypeOptions: [{

@@ -106,7 +106,7 @@
                         :data="testData.results"
                         :show-header="testData.count !== 0 "
                         stripe
-                        max-height="600"
+                        height="600"
                         size="medium"
                         @cell-mouse-enter="cellMouseEnter"
                         @cell-mouse-leave="cellMouseLeave"
@@ -142,7 +142,7 @@
 
                         <el-table-column width="250px">
                             <template slot-scope="scope">
-                                <el-row v-show="currentRow === scope.row">
+                                <el-row>
                                     <el-button
                                         type="info"
                                         icon="el-icon-edit"

@@ -79,6 +79,7 @@
             @node-click="handleNodeClick"
             :data="dataTree"
             node-key="id"
+            show-checkbox
             :default-expand-all="false"
             :expand-on-click-node="false"
             draggable
@@ -240,7 +241,7 @@ export default {
         });
     },
     dialogBeforeClose() {
-      this.dialogTableVisible = false;
+      this.dialogVisible = false;
     },
     getHost() {
       this.$api
@@ -400,6 +401,9 @@ export default {
           });
       }
     },
+    clickClose(){
+      this.dialogVisible=false
+    }
   },
   data() {
     return {

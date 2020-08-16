@@ -11,42 +11,42 @@ F<template>
         </ul>
 
         <ul class="project_detail">
-            <li class="pull-left">
+            <router-link class="pull-left"  :to="{path:'/fastrunner/api_record/'+id}"  tag="li" >
                 <p class="title-p"><i class="iconfont">&#xe74a;</i> &nbsp;{{projectInfo.api_count}} 个接口</p>
                 <p class="desc-p">接口总数</p>
-            </li>
+            </router-link>
 
-            <li class="pull-left">
+            <router-link class="pull-left"  :to="{path:'/fastrunner/auto_test/'+id}"   tag="li">
                 <p class="title-p"><i class="iconfont">&#xe6da;</i> &nbsp;{{projectInfo.case_count}} 个用例</p>
                 <p class="desc-p">用例集总数</p>
-            </li>
+            </router-link>
 
-            <li class="pull-left">
+            <router-link class="pull-left"  :to="{path:'/fastrunner/record_config/'+id}"   tag="li">
                 <p class="title-p"><i class="iconfont">&#xee32;</i> &nbsp;{{projectInfo.config_count}} 套配置</p>
                 <p class="desc-p">配置总数</p>
-            </li>
+            </router-link>
 
-            <li class="pull-left">
+            <router-link class="pull-left"  :to="{path:'/fastrunner/global_env/'+id}"   tag="li">
                 <p class="title-p"><i class="iconfont">&#xe692;</i> &nbsp;{{projectInfo.variables_count}} 对变量</p>
                 <p class="desc-p">全局变量对数</p>
-            </li>
+            </router-link>
         </ul>
 
         <ul class="project_detail">
-            <li class="pull-left">
+            <router-link class="pull-left"  :to="{path:'/fastrunner/host_ip/'+id}"   tag="li">
                 <p class="title-p"><i class="iconfont">&#xe609;</i> &nbsp;{{projectInfo.host_count}} 套环境</p>
                 <p class="desc-p">环境总数</p>
-            </li>
+            </router-link>
 
-            <li class="pull-left">
+            <router-link class="pull-left"  :to="{path:'/fastrunner/tasks/'+id}"   tag="li">
                 <p class="title-p"><i class="iconfont">&#xe61e;</i> &nbsp;{{projectInfo.task_count}} 项任务</p>
                 <p class="desc-p">定时任务个数</p>
-            </li>
+            </router-link>
 
-            <li class="pull-left">
+            <router-link class="pull-left"  :to="{path:'/fastrunner/reports/'+id}"   tag="li"    >
                 <p class="title-p"><i class="iconfont">&#xe66e;</i> &nbsp;{{projectInfo.report_count}} 个报告</p>
                 <p class="desc-p">测试报告总数</p>
-            </li>
+            </router-link>
 
           
         </ul>
@@ -61,7 +61,8 @@ F<template>
         data() {
             return {
                 projectInfo: {},
-                loading: true
+                loading: true,
+                id:''
             }
         },
         methods: {
@@ -76,6 +77,7 @@ F<template>
             }
         },
         mounted() {
+            this.id=this.$route.params.id;
             this.getProjectDetail();
         }
     }
