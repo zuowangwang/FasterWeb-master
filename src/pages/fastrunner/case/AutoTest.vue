@@ -183,9 +183,7 @@
                             ref="tree2"
                             @node-drag-end="handleDragEnd"
                         >
-                            <span class="custom-tree-node"
-                                  slot-scope="{ node, data }"
-                            >
+                            <span class="custom-tree-node" slot-scope="{ node, data }">
                                 <span><i class="iconfont" v-html="expand"></i>&nbsp;&nbsp;{{ node.label }}</span>
                             </span>
                         </el-tree>
