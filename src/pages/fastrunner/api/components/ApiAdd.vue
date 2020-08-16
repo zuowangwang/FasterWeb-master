@@ -79,7 +79,6 @@
             @node-click="handleNodeClick"
             :data="dataTree"
             node-key="id"
-            show-checkbox
             :default-expand-all="false"
             :expand-on-click-node="false"
             draggable

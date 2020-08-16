@@ -495,12 +495,18 @@ export default {
   width: 80px;
 }
 .block-summary-description{
-  width: 200px;
   text-align: left;
   padding-left: 20px;
+  width: 150px;
+  overflow: hidden;/*超出部分隐藏*/
+  text-overflow:ellipsis;/* 超出部分显示省略号 */
+  white-space: nowrap;/*规定段落中的文本不进行换行 */
 }
 .block_url{
   flex: 1;
   text-align: left;
+  overflow: hidden;/*超出部分隐藏*/
+  text-overflow:ellipsis;/* 超出部分显示省略号 */
+  white-space: nowrap;/*规定段落中的文本不进行换行 */
 }
 </style>

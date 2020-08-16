@@ -37,7 +37,8 @@
         <el-row :gutter="20">
           <!-- <el-col :span="12" style="margin-left: -35px">
           </el-col>-->
-          <el-col :span="12" style="margin-left: 35px;float:right">
+          <el-col :span="12" style="float:right">
+            <div style="text-align: center">
             <el-input
               style="width: 460px; text-align: center"
               placeholder="请输入测试用例名称"
@@ -55,67 +56,68 @@
               </el-select>
               <el-button slot="append" type="success" plain @click="handleClickSave">Save</el-button>
             </el-input>
+            </div>
           </el-col>
         </el-row>
       </div>
 
       <div v-show="!editTestStepActivate" style="margin-top: 10px; ">
         <el-row :gutter="25">
-          <el-col
-            :span="12"
-          >
-          <div  style="border:2px solid rgb(184, 202, 213);padding:20px;height: 800px;position: relative;">
+          <el-col :span="12">
             <div
-              v-for="(item,index) in apiData.results"
-              draggable="true"
-              @dragstart="currentAPI = JSON.parse(JSON.stringify(item))"
-              style="cursor: pointer; margin-top: 5px; overflow: auto;"
-              :key="index"
+              style="border:2px solid rgb(184, 202, 213);padding:20px;height: 800px;position: relative;"
             >
-              <div class="block block_post" v-if="item.method.toUpperCase() === 'POST' ">
-                <span class="block-method block_method_post block_method_color">POST</span>
-                <span class="block-method block_url">{{item.url}}</span>
-                <span class="block-summary-description">{{item.name}}</span>
-              </div>
+              <div
+                v-for="(item,index) in apiData.results"
+                draggable="true"
+                @dragstart="currentAPI = JSON.parse(JSON.stringify(item))"
+                style="cursor: pointer; margin-top: 5px; overflow: auto;"
+                :key="index"
+              >
+                <div class="block block_post" v-if="item.method.toUpperCase() === 'POST' ">
+                  <span class="block-method block_method_post block_method_color">POST</span>
+                  <span class="block-summary-description">{{item.name}}</span>
+                  <span class="block-method block_url">{{item.url}}</span>
+                </div>
 
-              <div class="block block_get" v-if="item.method.toUpperCase() === 'GET' ">
-                <span class="block-method block_method_get block_method_color">GET</span>
-                <span class="block-method block_url">{{item.url}}</span>
-                <span class="block-summary-description">{{item.name}}</span>
-              </div>
+                <div class="block block_get" v-if="item.method.toUpperCase() === 'GET' ">
+                  <span class="block-method block_method_get block_method_color">GET</span>
+                  <span class="block-summary-description">{{item.name}}</span>
+                  <span class="block-method block_url">{{item.url}}</span>
+                </div>
 
-              <div class="block block_put" v-if="item.method.toUpperCase() === 'PUT' ">
-                <span class="block-method block_method_put block_method_color">PUT</span>
-                <span class="block-method block_url">{{item.url}}</span>
-                <span class="block-summary-description">{{item.name}}</span>
-              </div>
+                <div class="block block_put" v-if="item.method.toUpperCase() === 'PUT' ">
+                  <span class="block-method block_method_put block_method_color">PUT</span>
+                  <span class="block-summary-description">{{item.name}}</span>
+                  <span class="block-method block_url">{{item.url}}</span>
+                </div>
 
-              <div class="block block_delete" v-if="item.method.toUpperCase() === 'DELETE' ">
-                <span class="block-method block_method_delete block_method_color">DELETE</span>
-                <span class="block-method block_url">{{item.url}}</span>
-                <span class="block-summary-description">{{item.name}}</span>
-              </div>
+                <div class="block block_delete" v-if="item.method.toUpperCase() === 'DELETE' ">
+                  <span class="block-method block_method_delete block_method_color">DELETE</span>
+                  <span class="block-summary-description">{{item.name}}</span>
+                  <span class="block-method block_url">{{item.url}}</span>
+                </div>
 
-              <div class="block block_patch" v-if="item.method.toUpperCase() === 'PATCH' ">
-                <span class="block-method block_method_patch block_method_color">PATCH</span>
-                <span class="block-method block_url">{{item.url}}</span>
-                <span class="block-summary-description">{{item.name}}</span>
-              </div>
+                <div class="block block_patch" v-if="item.method.toUpperCase() === 'PATCH' ">
+                  <span class="block-method block_method_patch block_method_color">PATCH</span>
+                  <span class="block-summary-description">{{item.name}}</span>
+                  <span class="block-method block_url">{{item.url}}</span>
+                </div>
 
-              <div class="block block_head" v-if="item.method.toUpperCase() === 'HEAD' ">
-                <span class="block-method block_method_head block_method_color">HEAD</span>
-                <span class="block-method block_url">{{item.url}}</span>
-                <span class="block-summary-description">{{item.name}}</span>
-              </div>
+                <div class="block block_head" v-if="item.method.toUpperCase() === 'HEAD' ">
+                  <span class="block-method block_method_head block_method_color">HEAD</span>
+                  <span class="block-summary-description">{{item.name}}</span>
+                  <span class="block-method block_url">{{item.url}}</span>
+                </div>
 
-              <div class="block block_options" v-if="item.method.toUpperCase()=== 'OPTIONS' ">
-                <span class="block-method block_method_options block_method_color">OPTIONS</span>
-                <span class="block-method block_url">{{item.url}}</span>
-                <span class="block-summary-description">{{item.name}}</span>
+                <div class="block block_options" v-if="item.method.toUpperCase()=== 'OPTIONS' ">
+                  <span class="block-method block_method_options block_method_color">OPTIONS</span>
+                  <span class="block-summary-description">{{item.name}}</span>
+                  <span class="block-method block_url">{{item.url}}</span>
+                </div>
               </div>
             </div>
-            </div>
-             <div style="float:right">
+            <div style="float:right">
               <el-pagination
                 :page-size="11"
                 v-show="apiData.count !== 0"
@@ -139,10 +141,14 @@
               <div class="test-list">
                 <div
                   v-if="testData.length ===0"
-                  style="color: red; text-align: center; margin-top: 100px"
+                  style="color: red; text-align: left;width: 43%;margin: 34% auto;"
                 >
-                  温馨提示
-                  <br />选择左侧相应API节点显示可拖拽的API,从左边拖拽API至此区域组成业务用例,上下拖动此区域接口调整接口调用顺序
+                  <p style="text-align:center">温馨提示：</p>
+                  <p>1.选择左侧相应用例节点显示可拖拽的用例</p>
+                  <p>2.从左边拖拽用例至此区域组成任务列表</p>
+                  <p>3.上下拖动此区域任务调整监控调用顺序</p>
+                  <p>4.用例的右侧的编辑按钮内添加域名环境参数</p>
+                  <p>5.环境配置、需要在添加用例的时候添加</p>
                 </div>
                 <div v-if="isConfigExist" class="block block_test" @mousemove="currentTest = -1">
                   <span
@@ -201,14 +207,13 @@
                 </draggable>
               </div>
             </div>
-          <div style="float:right;padding:5px">
-          <span>共计</span>
-          <span style="color:#409EFF">{{testData.length}}</span>
-          <span>个</span>
-        </div>
+            <div style="float:right;padding:5px">
+              <span>共计</span>
+              <span style="color:#409EFF">{{testData.length}}</span>
+              <span>个</span>
+            </div>
           </el-col>
         </el-row>
-        
       </div>
 
       <http-runner
@@ -544,5 +549,21 @@ export default {
   border: none;
   outline: none;
   background: rgba(236, 248, 238, 0.4);
+}
+.block-method{
+  width: 100px;
+}
+.block-summary-description{
+  width: 100px;
+  padding-left: 20px;
+  overflow: hidden;/*超出部分隐藏*/
+  text-overflow:ellipsis;/* 超出部分显示省略号 */
+  white-space: nowrap;/*规定段落中的文本不进行换行 */
+}
+.block_url{
+  flex:1;
+  overflow: hidden;/*超出部分隐藏*/
+  text-overflow:ellipsis;/* 超出部分显示省略号 */
+  white-space: nowrap;/*规定段落中的文本不进行换行 */
 }
 </style>
