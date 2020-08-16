@@ -141,7 +141,7 @@
               <div class="test-list">
                 <div
                   v-if="testData.length ===0"
-                  style="color: red; text-align: left;width: 43%;margin: 34% auto;"
+                  style="color: red; text-align: left;width: 45%;margin: 34% auto;"
                 >
                   <p style="text-align:center">温馨提示：</p>
                   <p>1.选择左侧相应用例节点显示可拖拽的用例</p>
@@ -562,6 +562,7 @@ export default {
 }
 .block_url{
   flex:1;
+  text-align: left;
   overflow: hidden;/*超出部分隐藏*/
   text-overflow:ellipsis;/* 超出部分显示省略号 */
   white-space: nowrap;/*规定段落中的文本不进行换行 */

@@ -94,12 +94,7 @@
         </div>
       </el-aside>
       <el-main style="padding-top: 0px">
-        <div style="position:relative;">
-          <span style="color: red;text-align:center;display:block;font-size:12px">
-            温馨提示：
-            <br />1.选择左侧相应用例节点显示可拖拽的用例 &nbsp;2.从左边拖拽用例至此区域组成任务列表
-            <br />3.上下拖动此区域任务调整监控调用顺序 &nbsp;&nbsp;&nbsp;4.右侧的编辑按钮内添加域名环境参数&nbsp;&nbsp;&nbsp;&nbsp;
-          </span>
+        <div style="position:relative;height:50px">
           <div style="right:0px;bottom:0px;position:absolute">
             <el-row :gutter="20">
               <el-col>
@@ -148,8 +143,13 @@
             </el-col>
             <el-col :span="12">
               <div style="border:2px solid rgba(184 202 213);padding:20px;height: 650px; ">
-                <div style="overflow: auto" @drop="drop($event)" @dragover="allowDrop($event)">
-                  <div class="test-list">
+                <div  style="overflow: auto"  @drop="drop($event)" @dragover="allowDrop($event)">
+                   <div v-if="testData.length ===0" style="color: red; text-align: left;width: 45%;margin: 20% auto;">
+                  <p style="text-align:center">温馨提示：</p>
+                    <p>1.选择左侧相应用例节点显示可拖拽的用例</p> <p>2.从左边拖拽用例至此区域组成任务列表</p>
+                 <p>3.上下拖动此区域任务调整监控调用顺序 </p><p>4.用例的右侧的编辑按钮内添加域名环境参数</p><p>5.环境配置，需要在添加用例的时候添加</p>
+                </div>
+                <div class="test-list">
                     <draggable
                       v-model="testData"
                       @end="dragEnd"

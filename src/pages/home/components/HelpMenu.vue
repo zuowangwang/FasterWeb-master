@@ -1,6 +1,6 @@
 <template>
-  <div style="padding:40px;box-sizing:border-box;font-szie:14px;height:100vh;overflow:fidden">
-    <div style="overflow-y:scroll;height:100%;">
+  <div style="padding:40px;box-sizing:border-box;height:1000px;overflow:fidden">
+    <div style="overflow-y:scroll;height:100%;font-szie:14px;">
       # 自动化平台帮助
       <br />
       <br />## API 调试
