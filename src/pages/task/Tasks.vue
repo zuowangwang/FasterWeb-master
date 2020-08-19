@@ -310,7 +310,7 @@ export default {
       var form = val.summary_kwargs;
       form["switch"] = val.enabled;
       form["name"] = val.name;
-      form["data"] = val.summary_args[0];
+      form["data"] = val.summary_args;
       this.scheduleId = val.id;
       this.$api
         .updateTask(this.scheduleId, { project: this.$route.params.id }, form)

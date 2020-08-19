@@ -144,7 +144,7 @@
             <el-col :span="12">
               <div style="border:2px solid rgba(184 202 213);padding:20px;height: 650px; ">
                 <div  style="overflow: auto"  @drop="drop($event)" @dragover="allowDrop($event)">
-                   <div v-if="testData.length ===0" style="color: red; text-align: left;width: 45%;margin: 20% auto;">
+                   <div v-if="testData.length ===0" style="color: red; text-align: left;width: 320px;margin: 20% auto;">
                   <p style="text-align:center">温馨提示：</p>
                     <p>1.选择左侧相应用例节点显示可拖拽的用例</p> <p>2.从左边拖拽用例至此区域组成任务列表</p>
                  <p>3.上下拖动此区域任务调整监控调用顺序 </p><p>4.用例的右侧的编辑按钮内添加域名环境参数</p><p>5.环境配置，需要在添加用例的时候添加</p>

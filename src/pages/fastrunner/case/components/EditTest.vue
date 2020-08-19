@@ -141,7 +141,7 @@
               <div class="test-list">
                 <div
                   v-if="testData.length ===0"
-                  style="color: red; text-align: left;width: 48%;margin: 34% auto;"
+                  style="color: red; text-align: left;width: 310px;margin: 34% auto;"
                 >
                   <p style="text-align:center">温馨提示：</p>
                   <p>1.选择左侧相应API节点显示可拖拽的API</p>

@@ -8,7 +8,7 @@ F<template>
     </ul>
 
     <ul class="project_detail">
-      <router-link class="pull-left" :to="{path:'/fastrunner/api_record/'+id}" tag="li">
+      <router-link class="pull-left" @click='getRouteDetails(RecordApi)' :to="{path:'/fastrunner/api_record/'+id}" tag="li">
         <p class="title-p">
           <i class="iconfont">&#xe74a;</i>
           &nbsp;{{projectInfo.api_count}} 个接口
@@ -16,14 +16,14 @@ F<template>
         <p class="desc-p">接口总数</p>
       </router-link>
 
-      <router-link class="pull-left" :to="{path:'/fastrunner/auto_test/'+id}" tag="li">
+      <router-link class="pull-left"  @click='getRouteDetails(AutoTest)' :to="{path:'/fastrunner/auto_test/'+id}" tag="li">
         <p class="title-p">
           <i class="iconfont">&#xe6da;</i>
           &nbsp;{{projectInfo.case_count}} 个用例
         </p>
         <p class="desc-p">用例集总数</p>
       </router-link>
-      <router-link class="pull-left" :to="{path:'/fastrunner/tasks/'+id}" tag="li">
+      <router-link class="pull-left" @click='getRouteDetails(Task)' :to="{path:'/fastrunner/tasks/'+id}" tag="li">
         <p class="title-p">
           <i class="iconfont">&#xe61e;</i>
           &nbsp;{{projectInfo.task_count}} 项任务
@@ -31,7 +31,7 @@ F<template>
         <p class="desc-p">定时任务个数</p>
       </router-link>
 
-      <router-link class="pull-left" :to="{path:'/fastrunner/reports/'+id}" tag="li">
+      <router-link class="pull-left" @click='getRouteDetails(Reports)' :to="{path:'/fastrunner/reports/'+id}" tag="li">
         <p class="title-p">
           <i class="iconfont">&#xe66e;</i>
           &nbsp;{{projectInfo.report_count}} 个报告
@@ -40,14 +40,14 @@ F<template>
       </router-link>
     </ul>
     <ul class="project_detail">
-      <router-link class="pull-left" :to="{path:'/fastrunner/host_ip/'+id}" tag="li">
+      <router-link class="pull-left" @click='getRouteDetails(HostIP)' :to="{path:'/fastrunner/host_ip/'+id}" tag="li">
         <p class="title-p">
           <i class="iconfont">&#xe609;</i>
           &nbsp;{{projectInfo.host_count}} 套环境
         </p>
         <p class="desc-p">环境总数</p>
       </router-link>
-      <router-link class="pull-left" :to="{path:'/fastrunner/record_config/'+id}" tag="li">
+      <router-link class="pull-left" @click='getRouteDetails(RecordConfig)' :to="{path:'/fastrunner/record_config/'+id}" tag="li">
         <p class="title-p">
           <i class="iconfont">&#xee32;</i>
           &nbsp;{{projectInfo.config_count}} 套配置
@@ -55,7 +55,7 @@ F<template>
         <p class="desc-p">配置总数</p>
       </router-link>
 
-      <router-link class="pull-left" :to="{path:'/fastrunner/global_env/'+id}" tag="li">
+      <router-link class="pull-left" @click='getRouteDetails(GlobalEnv)' :to="{path:'/fastrunner/global_env/'+id}" tag="li">
         <p class="title-p">
           <i class="iconfont">&#xe692;</i>
           &nbsp;{{projectInfo.variables_count}} 对变量
@@ -85,6 +85,10 @@ export default {
         }
         this.loading = false;
       });
+    },
+    getRouteDetails(url){
+      debugger
+      this.$store.commit("setRouterName", url);
     },
   },
   mounted() {
