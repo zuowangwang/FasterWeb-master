@@ -65,7 +65,7 @@
         <el-row :gutter="25">
           <el-col :span="12">
             <div
-              style="border:2px solid rgb(184, 202, 213);padding:20px;height: 800px;position: relative;"
+              style="border:2px solid rgb(184, 202, 213);padding:20px;height: 700px;position: relative;"
             >
               <div
                 v-for="(item,index) in apiData.results"
@@ -521,7 +521,7 @@ export default {
 .content-item {
   border: 2px solid rgb(184, 202, 213);
   padding: 20px;
-  height: 800px;
+  height: 700px;
   position: relative;
 }
 .block_test {
