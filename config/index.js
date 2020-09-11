@@ -21,11 +21,7 @@ module.exports = {
         },
 
         // Various Dev Server settings
-<<<<<<< HEAD
-        host: '192.168.3.27', // can be overwritten by process.variables.HOST
-=======
         host: 'localhost', // can be overwritten by process.variables.HOST
->>>>>>> temp
         port: 8080, // can be overwritten by process.variables.PORT, if port is in use, a free one will be determined
         autoOpenBrowser: false,
         errorOverlay: true,
