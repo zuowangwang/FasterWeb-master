@@ -58,11 +58,7 @@
     }
 
     .nav-header {
-<<<<<<< HEAD
-        background: #01101A;
-=======
         background: rgb(46, 49, 56);
->>>>>>> temp
         margin: 0 auto;
         font-size: 14px;
         width: 100%;

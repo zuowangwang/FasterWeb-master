@@ -64,19 +64,9 @@
                     >
                     </el-input-number>
                 </el-tooltip>
-<<<<<<< HEAD
-
-            </div>
-
-        </div>
-
-        <div class="request">
-
-=======
             </div>
         </div>
         <div class="request">
->>>>>>> temp
             <el-dialog
                 v-if="dialogTableVisible"
                 :visible.sync="dialogTableVisible"
@@ -84,10 +74,6 @@
             >
                 <report :summary="summary"></report>
             </el-dialog>
-<<<<<<< HEAD
-
-=======
->>>>>>> temp
             <el-tabs
                 style="margin-left: 20px;"
                 v-model="activeTag"
@@ -99,10 +85,6 @@
                         :header="response ? response.body.header: [] ">
                     </headers>
                 </el-tab-pane>
-<<<<<<< HEAD
-
-=======
->>>>>>> temp
                 <el-tab-pane label="Request" name="second">
                     <request
                         :save="save"
@@ -111,10 +93,6 @@
                     >
                     </request>
                 </el-tab-pane>
-<<<<<<< HEAD
-
-=======
->>>>>>> temp
                 <el-tab-pane label="Extract" name="third">
                     <extract
                         :save="save"
@@ -123,40 +101,22 @@
                     >
                     </extract>
                 </el-tab-pane>
-<<<<<<< HEAD
-
-=======
->>>>>>> temp
                 <el-tab-pane label="Validate" name="fourth">
                     <validate
                         :save="save"
                         v-on:validate="handleValidate"
                         :validate="response ? response.body.validate: []"
                     >
-<<<<<<< HEAD
-
                     </validate>
                 </el-tab-pane>
-
-=======
-                    </validate>
-                </el-tab-pane>
->>>>>>> temp
                 <el-tab-pane label="Variables" name="five">
                     <variables
                         :save="save"
                         v-on:variables="handleVariables"
                         :variables="response ? response.body.variables : []"
                     >
-<<<<<<< HEAD
-
                     </variables>
                 </el-tab-pane>
-
-=======
-                    </variables>
-                </el-tab-pane>
->>>>>>> temp
                 <el-tab-pane label="Hooks" name="six">
                     <hooks
                         :save="save"
@@ -166,15 +126,8 @@
                     </hooks>
                 </el-tab-pane>
             </el-tabs>
-<<<<<<< HEAD
-
         </div>
     </div>
-
-=======
-        </div>
-    </div>
->>>>>>> temp
 </template>
 
 <script>
@@ -219,10 +172,6 @@
                 this.save = !this.save;
                 this.run = true;
             },
-<<<<<<< HEAD
-
-=======
->>>>>>> temp
             handleHeader(header) {
                 this.header = header;
             },
@@ -240,10 +189,6 @@
             },
             handleHooks(hooks) {
                 this.hooks = hooks;
-<<<<<<< HEAD
-
-=======
->>>>>>> temp
                 if (!this.run) {
                     if (this.id === '') {
                         this.addAPI();
@@ -255,19 +200,11 @@
                     this.run = false;
                 }
             },
-<<<<<<< HEAD
-
-=======
->>>>>>> temp
             validateData() {
                 if (this.url === '') {
                     this.$notify.error('接口请求地址不能为空');
                     return false;
                 }
-<<<<<<< HEAD
-
-=======
->>>>>>> temp
                 if (this.name === '') {
                     this.$notify.error('接口名称不能为空');
                     return false;
@@ -351,10 +288,6 @@
                 }
             }
         },
-<<<<<<< HEAD
-
-=======
->>>>>>> temp
         watch: {
             response: function () {
                 this.name = this.response.body.name;
@@ -409,9 +342,4 @@
         margin-top: 15px;
         border: 1px solid #ddd;
     }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> temp
 </style>
