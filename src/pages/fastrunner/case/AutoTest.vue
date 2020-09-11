@@ -113,11 +113,7 @@
                         size="mini"
                         @click="del = !del"
                     ></el-button>
-<<<<<<< HEAD
-                    &nbsp环境:
-=======
                     &nbsp;环境:
->>>>>>> temp
                     <el-select
                         placeholder="请选择"
                         size="small"
@@ -132,11 +128,7 @@
                         </el-option>
                     </el-select>
                     <div style="display: inline" v-show="!addTestActivate">
-<<<<<<< HEAD
-                        <span>&nbsp配置:</span>
-=======
                         <span>&nbsp;配置:</span>
->>>>>>> temp
                         <el-select
                             placeholder="请选择"
                             size="small"
@@ -191,13 +183,7 @@
                             ref="tree2"
                             @node-drag-end="handleDragEnd"
                         >
-<<<<<<< HEAD
-                            <span class="custom-tree-node"
-                                  slot-scope="{ node, data }"
-                            >
-=======
                             <span class="custom-tree-node" slot-scope="{ node, data }">
->>>>>>> temp
                                 <span><i class="iconfont" v-html="expand"></i>&nbsp;&nbsp;{{ node.label }}</span>
                             </span>
                         </el-tree>
