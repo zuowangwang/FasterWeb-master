@@ -6,6 +6,10 @@ import ProjectList from '@/pages/project/ProjectList'
 import ProjectDetail from '@/pages/project/ProjectDetail'
 import DebugTalk from '@/pages/pycode/RecordPycode'
 import RecordApi from '@/pages/fastrunner/api/RecordApi'
+<<<<<<< HEAD
+=======
+import RecordApis from '@/pages/fastrunner/api/components/ApiAdd'
+>>>>>>> temp
 import AutoTest from '@/pages/fastrunner/case/AutoTest'
 import GlobalEnv from '@/pages/variables/GlobalEnv'
 import ReportList from '@/pages/reports/ReportList'
@@ -15,6 +19,10 @@ import HostAddress from '@/pages/variables/HostAddress'
 import TestData from "@/pages/testdata/TestData";
 import TaskMeta from "@/pages/reports/TaskMeta";
 //import Register from '@/pages/auth/Register'
+<<<<<<< HEAD
+=======
+import helpMenu from '@/pages/home/components/HelpMenu'
+>>>>>>> temp
 Vue.use(Router);
 
 export default new Router({
@@ -87,6 +95,27 @@ export default new Router({
                     }
                 },
                 {
+<<<<<<< HEAD
+=======
+                    name: 'RecordApis',
+                    path: 'api_recordApis/:id',
+                    component: RecordApis,
+                    meta: {
+                        title: 'API调试',
+                        requireAuth: true
+                    }
+                },
+                {
+                    name: 'helpMenu',
+                    path: 'help_menu/:id',
+                    component: helpMenu,
+                    meta: {
+                        title: '帮助',
+                        requireAuth: true
+                    }
+                },
+                {
+>>>>>>> temp
                     name: 'AutoTest',
                     path: 'auto_test/:id',
                     component: AutoTest,

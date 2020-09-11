@@ -102,6 +102,19 @@
                     </el-table-column>
 
                     <el-table-column
+<<<<<<< HEAD
+=======
+                        label="接口总数"
+                        width="150"
+                        align="center"
+                    >
+                        <template slot-scope="scope">
+                            <span>{{ scope.row.count }}</span>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column
+>>>>>>> temp
                         label="项目描述"
                         min-width="200"
                         align="center"
@@ -219,6 +232,10 @@
                 this.editVisible = true;
                 this.projectForm.name = row['name'];
                 this.projectForm.desc = row['desc'];
+<<<<<<< HEAD
+=======
+                this.projectForm.count = row['count'];
+>>>>>>> temp
                 this.projectForm.id = row['id'];
                 this.projectForm.responsible = row['responsible']
             },
@@ -251,6 +268,10 @@
                             if (String(resp.status).indexOf('2') === 0) {
                                 this.projectForm.name = '';
                                 this.projectForm.desc = '';
+<<<<<<< HEAD
+=======
+                                this.projectForm.count = '';
+>>>>>>> temp
                                 this.projectForm.id = '';
                                 this.projectForm.responsible = '';
                             }

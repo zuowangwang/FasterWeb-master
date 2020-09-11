@@ -92,7 +92,11 @@
                         @click="del = !del"
                         title="批量删除"
                     ></el-button>
+<<<<<<< HEAD
                     &nbsp环境:
+=======
+                    &nbsp;环境:
+>>>>>>> temp
                     <el-select
                         placeholder="请选择"
                         size="small"
@@ -106,7 +110,11 @@
                             :value="item.name">
                         </el-option>
                     </el-select>
+<<<<<<< HEAD
                     &nbsp配置:
+=======
+                    &nbsp;配置:
+>>>>>>> temp
                     <el-select
                         placeholder="请选择"
                         size="small"

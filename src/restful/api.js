@@ -3,12 +3,20 @@ import store from '../store/state'
 import router from '../router'
 import {Notification} from 'element-ui';
 
+<<<<<<< HEAD
 if (window.location.hostname === 'localhost' || window.location.hostname === '192.168.3.27'){
+=======
+if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'){
+>>>>>>> temp
     var base_Url = window.location.protocol + '//' + window.location.hostname + ':' +'8000';
 }else{
     var base_Url = window.location.protocol + '//' + window.location.host ;
 }
 export const baseUrl = base_Url;
+<<<<<<< HEAD
+=======
+//export const baseUrl = 'http://10.51.96.118:8080/';
+>>>>>>> temp
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = baseUrl;
