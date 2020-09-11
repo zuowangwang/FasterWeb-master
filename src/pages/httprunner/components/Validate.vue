@@ -227,10 +227,17 @@
                 currentValidate: '',
                 currentRow: '',
                 tableData: [{
+<<<<<<< HEAD
                     expect: 200,
                     actual: 'status_code',
                     comparator: 'eq',
                     type: 2
+=======
+                    expect: '',
+                    actual: '',
+                    comparator: 'eq',
+                    type: 1
+>>>>>>> temp
                 }],
 
                 dataTypeOptions: [{

@@ -8,6 +8,7 @@
                             <el-button slot="append" icon="el-icon-search" @click="getTestList"></el-button>
                         </el-input>
                     </el-col>
+<<<<<<< HEAD
                     <el-col :span="7">
                         <el-pagination
                             @current-change="handleCurrentChange"
@@ -20,13 +21,21 @@
                         >
                         </el-pagination>
                     </el-col>
+=======
+                    <!-- <el-col :span="7">
+                    </el-col> -->
+>>>>>>> temp
                 </el-row>
             </div>
         </el-header>
 
         <el-container>
             <el-main style="padding: 0; margin-left: 10px; margin-bottom: 10px">
+<<<<<<< HEAD
                 <div style="position: fixed; bottom: 0; right:0; left: 460px; top: 160px">
+=======
+                <div style="position: fixed; bottom: 0; right:0; left: 460px; top: 100px">
+>>>>>>> temp
                     <el-dialog
                         v-if="dialogTableVisible"
                         :visible.sync="dialogTableVisible"
@@ -116,7 +125,11 @@
                         :data="testData.results"
                         :show-header="testData.count !== 0 "
                         stripe
+<<<<<<< HEAD
                         max-height="600"
+=======
+                        height="600"
+>>>>>>> temp
                         size="medium"
                         @cell-mouse-enter="cellMouseEnter"
                         @cell-mouse-leave="cellMouseLeave"
@@ -136,7 +149,11 @@
                             </template>
                         </el-table-column>
 
+<<<<<<< HEAD
                         <el-table-column label="用例类型" width="100px" align="center">
+=======
+                        <el-table-column label="用例类型" width="200" align="center">
+>>>>>>> temp
                             <template slot-scope="scope">
                                 <el-tag v-if="scope.row.tag=== 1">冒烟用例</el-tag>
                                 <el-tag v-if="scope.row.tag=== 2" type="success">集成用例</el-tag>
@@ -144,15 +161,25 @@
                             </template>
                         </el-table-column>
 
+<<<<<<< HEAD
                         <el-table-column label="更新时间" width="160px" align="center">
+=======
+                        <el-table-column label="更新时间" width="200px" align="center">
+>>>>>>> temp
                             <template slot-scope="scope">
                                 <div>{{scope.row.update_time|datetimeFormat}}</div>
                             </template>
                         </el-table-column>
 
+<<<<<<< HEAD
                         <el-table-column width="150px">
                             <template slot-scope="scope">
                                 <el-row v-show="currentRow === scope.row">
+=======
+                        <el-table-column width="250px">
+                            <template slot-scope="scope">
+                                <el-row>
+>>>>>>> temp
                                     <el-button
                                         type="info"
                                         icon="el-icon-edit"
@@ -168,6 +195,7 @@
                                         title="运行"
                                         @click="handleRunTest(scope.row.id, scope.row.name)"
                                     ></el-button>
+<<<<<<< HEAD
 
                                     <el-popover
                                         style="margin-left: 10px"
@@ -176,6 +204,9 @@
                                         >
                                         <div style="text-align: center">
                                             <el-button
+=======
+                                     <el-button
+>>>>>>> temp
                                                 type="success"
                                                 icon="el-icon-document"
                                                 circle size="mini"
@@ -199,14 +230,32 @@
                                                 @click="handleDelTest(scope.row.id)"
                                             >
                                             </el-button>
+<<<<<<< HEAD
                                         </div>
                                         <el-button icon="el-icon-more" title="更多" circle size="mini" slot="reference" @click="scope.row.visible=!scope.row.visible"></el-button>
                                     </el-popover>
 
+=======
+>>>>>>> temp
                                 </el-row>
                             </template>
                         </el-table-column>
                     </el-table>
+<<<<<<< HEAD
+=======
+                    <div style="float:right;margin-top:20px;margin-right:40px;">
+                        <el-pagination
+                            @current-change="handleCurrentChange"
+                            :current-page.sync="currentPage"
+                            :page-size="11"
+                            v-show="testData.count !== 0 "
+                            background
+                            layout="total, prev, pager, next, jumper"
+                            :total="testData.count"
+                        >
+                        </el-pagination>
+                    </div>
+>>>>>>> temp
                 </div>
             </el-main>
 
