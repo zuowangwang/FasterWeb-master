@@ -95,7 +95,7 @@ export default {
         backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
-        height: "600px",
+        height: "1600px",
       },
     };
   },

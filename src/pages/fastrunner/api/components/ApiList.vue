@@ -230,38 +230,38 @@
           </div>
         </div>
 
-      <div class="tabList">
-        <el-dialog
-          title
-          :visible.sync="dialogVisibleInfo"
-          width="width"
-          :before-close="dialogBeforeClose"
-        >
-          <el-tree
-            @node-click="handleNodeClick"
-            :data="dataTrees"
-            node-key="id"
-            :default-expand-all="false"
-            :expand-on-click-node="false"
-            draggable
-            highlight-current
-            :filter-node-method="filterNode"
-            ref="tree2"
-            @node-drag-end="handleDragEnd"
+        <div class="tabList">
+          <el-dialog
+            title
+            :visible.sync="dialogVisibleInfo"
+            width="width"
+            :before-close="dialogBeforeClose"
           >
-            <span class="custom-tree-node" slot-scope="{ node, data }">
-              <span>
-                <i class="iconfont" v-html="expand"></i>
-                &nbsp;&nbsp;{{ node.label }}
+            <el-tree
+              @node-click="handleNodeClick"
+              :data="dataTrees"
+              node-key="id"
+              :default-expand-all="false"
+              :expand-on-click-node="false"
+              draggable
+              highlight-current
+              :filter-node-method="filterNode"
+              ref="tree2"
+              @node-drag-end="handleDragEnd"
+            >
+              <span class="custom-tree-node" slot-scope="{ node, data }">
+                <span>
+                  <i class="iconfont" v-html="expand"></i>
+                  &nbsp;&nbsp;{{ node.label }}
+                </span>
               </span>
-            </span>
-          </el-tree>
-          <div slot="footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="openHandleClik()">确 定</el-button>
-          </div>
-        </el-dialog>
-      </div>
+            </el-tree>
+            <div slot="footer">
+              <el-button @click="dialogVisible = false">取 消</el-button>
+              <el-button type="primary" @click="openHandleClik()">确 定</el-button>
+            </div>
+          </el-dialog>
+        </div>
       </el-main>
     </el-container>
   </el-container>
@@ -296,11 +296,11 @@ export default {
     return {
       checked: false,
       search: "",
-      dialogVisibleInfo:false,
-      infoSaveId:'',
+      dialogVisibleInfo: false,
+      infoSaveId: "",
       dataTrees: [],
-      infoSaveObj:{},
-      nodeId:'',
+      infoSaveObj: {},
+      nodeId: "",
       reportName: "",
       asyncs: false,
       filterText: "",
@@ -367,53 +367,74 @@ export default {
     handleDragEnd() {
       // this.updateTree(false);
     },
-
-    validateData() {
-      if (this.url === "") {
-        this.$notify.error("接口请求地址不能为空");
-        return false;
-      }
-
-      if (this.name === "") {
-        this.$notify.error("接口名称不能为空");
-        return false;
-      }
-      return true;
-    },
     addAPI() {
-      let data =this.infoSaveObj
-      data.body.request.json_data= JSON.parse(data.body.request.json_data)
-      data.body.request.from= {data: {},desc: {}}
-      if (this.validateData()) {
-        this.$api
-          .addAPI({
-            header: data.body.header,
-            request: data.body.request,
-            extract: data.body.extract,
-            validate: data.body.validate,
-            variables: data.body.variables,
-            hooks: data.body.hooks,
-            url: data.url,
-            method: data.method,
-            name: data.name,
-            times: data.body.times,
-            nodeId: this.nodeId,
-            project: (data.project).toString(),
-          })
-          .then((resp) => {
-            if (resp.success) {
-              this.$notify.success(resp.msg);
-              this.$emit("addSuccess");
+      let data = this.infoSaveObj;
+      let arr = data.body.header;
+      let json =JSON.parse(data.body.request.json_data);
+      let obj = {};
+      let desc = {};
+      arr.forEach((item) => {
+        obj[item.key] = item.value;
+        desc[item.key] = item.desc || "";
+      });
+      data.body.header = { desc: desc, header: obj };
+      data.body.validate = {
+        validate: [],
+      };
+      data.body.variables = {
+        variables: [],
+        desc: {},
+      };
+      data.body.request={
+      params:{
+        params: {},
+        desc: {},
+      },
+      files:{
+        files:{},
+        desc:{},
+      },
+      form:{
+        data: {},
+        desc: {},
+      },
+      };
+      data.body.request.json=json
+      data.body.extract = {
+        extract: [],
+        desc: {},
+      };
+      data.body.hooks = {
+        setup_hooks: [],
+        teardown_hooks: [],
+      };
+      this.$api
+        .addAPI({
+          header: data.body.header,
+          request: data.body.request,
+          extract: data.body.extract,
+          validate: data.body.validate,
+          variables: data.body.variables,
+          hooks: data.body.hooks,
+          url: data.url,
+          method: data.method,
+          name: data.name,
+          times: data.body.times,
+          nodeId: this.nodeId,
+          project: data.project.toString(),
+        })
+        .then((resp) => {
+          if (resp.success) {
+            this.$notify.success(resp.msg);
+            this.$emit("addSuccess");
             this.dialogVisibleInfo = false;
-
-            } else {
-              this.$notify.error(resp.msg);
-            }
-          });
-      }
+          } else {
+            this.$notify.error(resp.msg);
+          }
+        });
     },
     openHandleClik() {
-      this.addAPI()
+      this.addAPI();
     },
     // updateTree(mode) {
     //   this.$api
@@ -494,7 +515,7 @@ export default {
           });
       }
     },
-     getTrees() {
+    getTrees() {
       this.$api
         .getTree(this.$route.params.id, { params: { type: 1 } })
         .then((resp) => {
@@ -570,9 +591,9 @@ export default {
         });
     },
     //移动切换分组并保存
-    handleSaveAPI(data){
-      this.infoSaveObj=data
-      this.dialogVisibleInfo=true
+    handleSaveAPI(data) {
+      this.infoSaveObj = data;
+      this.dialogVisibleInfo = true;
     },
 
     dialogBeforeClose() {
