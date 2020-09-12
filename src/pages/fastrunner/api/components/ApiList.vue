@@ -12,14 +12,14 @@
           </el-col>
 
           <el-col :span="7" style="margin-left: 0px">
-            <el-input placeholder="请输入接口名称" clearable  v-model="search" @clear='closeList()'>
+            <el-input placeholder="请输入接口名称" clearable v-model="search" @clear="closeList()">
               <el-button slot="append" icon="el-icon-search" @click="getAPIList"></el-button>
             </el-input>
           </el-col>
 
           <!-- <el-col :span="7" style="margin-left: -10px">
             <el-button type="primary" size="medium" @click="closeList">清空</el-button>
-          </el-col> -->
+          </el-col>-->
         </el-row>
       </div>
     </el-header>
@@ -112,38 +112,50 @@
               <template slot-scope="scope">
                 <div class="block block_post" v-if="scope.row.method.toUpperCase() === 'POST' ">
                   <span class="block-method block_method_post block_method_color">POST</span>
-                  <span class="block-summary-description">{{scope.row.name}}</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
+                  <div class="block-summary">
+                    <span class="block-summary-description">{{scope.row.name}}</span>
+                    <span class="block_url">{{scope.row.url}}</span>
+                  </div>
                 </div>
 
                 <div class="block block_get" v-if="scope.row.method.toUpperCase() === 'GET' ">
                   <span class="block-method block_method_get block_method_color">GET</span>
-                  <span class="block-summary-description">{{scope.row.name}}</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
+                  <div class="block-summary">
+                    <span class="block-summary-description">{{scope.row.name}}</span>
+                    <span class="block_url">{{scope.row.url}}</span>
+                  </div>
                 </div>
 
                 <div class="block block_put" v-if="scope.row.method.toUpperCase() === 'PUT' ">
                   <span class="block-method block_method_put block_method_color">PUT</span>
-                  <span class="block-summary-description">{{scope.row.name}}</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
+                  <div class="block-summary">
+                    <span class="block-summary-description">{{scope.row.name}}</span>
+                    <span class="block_url">{{scope.row.url}}</span>
+                  </div>
                 </div>
 
                 <div class="block block_delete" v-if="scope.row.method.toUpperCase() === 'DELETE' ">
                   <span class="block-method block_method_delete block_method_color">DELETE</span>
-                  <span class="block-summary-description">{{scope.row.name}}</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
+                  <div class="block-summary">
+                    <span class="block-summary-description">{{scope.row.name}}</span>
+                    <span class="block_url">{{scope.row.url}}</span>
+                  </div>
                 </div>
 
                 <div class="block block_patch" v-if="scope.row.method.toUpperCase() === 'PATCH' ">
                   <span class="block-method block_method_patch block_method_color">PATCH</span>
-                  <span class="block-summary-description">{{scope.row.name}}</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
+                  <div class="block-summary">
+                    <span class="block-summary-description">{{scope.row.name}}</span>
+                    <span class="block_url">{{scope.row.url}}</span>
+                  </div>
                 </div>
 
                 <div class="block block_head" v-if="scope.row.method.toUpperCase() === 'HEAD' ">
                   <span class="block-method block_method_head block_method_color">HEAD</span>
-                  <span class="block-summary-description">{{scope.row.name}}</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
+                  <div class="block-summary">
+                    <span class="block-summary-description">{{scope.row.name}}</span>
+                    <span class="block_url">{{scope.row.url}}</span>
+                  </div>
                 </div>
 
                 <div
@@ -151,13 +163,13 @@
                   v-if="scope.row.method.toUpperCase()=== 'OPTIONS' "
                 >
                   <span class="block-summary-description">{{scope.row.name}}</span>
-                  <span class="block-method block_url">{{scope.row.url}}</span>
+                  <span class="block_url">{{scope.row.url}}</span>
                   <span class="block-method block_method_options block_method_color">OPTIONS</span>
                 </div>
               </template>
             </el-table-column>
 
-            <el-table-column width="200">
+            <el-table-column width="230">
               <template slot-scope="scope">
                 <el-row>
                   <el-button
@@ -185,6 +197,14 @@
                     title="复制"
                   ></el-button>
                   <el-button
+                    type="warning"
+                    icon="el-icon-document-copy"
+                    circle
+                    size="mini"
+                    @click="handleSaveAPI(scope.row)"
+                    title="另存为"
+                  ></el-button>
+                  <el-button
                     type="danger"
                     icon="el-icon-delete"
                     circle
@@ -209,6 +229,39 @@
             ></el-pagination>
           </div>
         </div>
+
+      <div class="tabList">
+        <el-dialog
+          title
+          :visible.sync="dialogVisibleInfo"
+          width="width"
+          :before-close="dialogBeforeClose"
+        >
+          <el-tree
+            @node-click="handleNodeClick"
+            :data="dataTrees"
+            node-key="id"
+            :default-expand-all="false"
+            :expand-on-click-node="false"
+            draggable
+            highlight-current
+            :filter-node-method="filterNode"
+            ref="tree2"
+            @node-drag-end="handleDragEnd"
+          >
+            <span class="custom-tree-node" slot-scope="{ node, data }">
+              <span>
+                <i class="iconfont" v-html="expand"></i>
+                &nbsp;&nbsp;{{ node.label }}
+              </span>
+            </span>
+          </el-tree>
+          <div slot="footer">
+            <el-button @click="dialogVisible = false">取 消</el-button>
+            <el-button type="primary" @click="openHandleClik()">确 定</el-button>
+          </div>
+        </el-dialog>
+      </div>
       </el-main>
     </el-container>
   </el-container>
@@ -243,6 +296,11 @@ export default {
     return {
       checked: false,
       search: "",
+      dialogVisibleInfo:false,
+      infoSaveId:'',
+      dataTrees: [],
+      infoSaveObj:{},
+      nodeId:'',
       reportName: "",
       asyncs: false,
       filterText: "",
@@ -306,6 +364,81 @@ export default {
   },
 
   methods: {
+    handleDragEnd() {
+      // this.updateTree(false);
+    },
+
+    validateData() {
+      if (this.url === "") {
+        this.$notify.error("接口请求地址不能为空");
+        return false;
+      }
+
+      if (this.name === "") {
+        this.$notify.error("接口名称不能为空");
+        return false;
+      }
+      return true;
+    },
+    addAPI() {
+      let data =this.infoSaveObj
+      data.body.request.json_data= JSON.parse(data.body.request.json_data)
+      data.body.request.from= {data: {},desc: {}}
+      if (this.validateData()) {
+        this.$api
+          .addAPI({
+            header: data.body.header,
+            request: data.body.request,
+            extract: data.body.extract,
+            validate: data.body.validate,
+            variables: data.body.variables,
+            hooks: data.body.hooks,
+            url: data.url,
+            method: data.method,
+            name: data.name,
+            times: data.body.times,
+            nodeId: this.nodeId,
+            project: (data.project).toString(),
+          })
+          .then((resp) => {
+            if (resp.success) {
+              this.$notify.success(resp.msg);
+              this.$emit("addSuccess");
+            this.dialogVisibleInfo = false;
+
+            } else {
+              this.$notify.error(resp.msg);
+            }
+          });
+      }
+    },
+    openHandleClik() {
+      this.addAPI()
+    },
+    // updateTree(mode) {
+    //   this.$api
+    //     .updateTree(this.treeId, {
+    //       ody: this.dataTrees,
+    //       node: this.currentNode.id,
+    //       mode: mode,
+    //       type: 1,
+    //     })
+    //     .then((resp) => {
+    //       if (resp["success"]) {
+    //         this.dataTrees = resp["tree"];
+    //         this.maxId = resp["max"];
+    //         this.$notify.success("更新成功");
+    //       } else {
+    //         this.$message.error(resp["msg"]);
+    //       }
+    //     });
+    // },
+    handleNodeClick(node, data) {
+      this.addAPIFlag = false;
+      this.currentNode = node;
+      this.nodeId = node.id;
+      this.data = data;
+    },
     handleCopyAPI(id) {
       this.$prompt("请输入接口名称", "提示", {
         confirmButtonText: "确定",
@@ -360,6 +493,15 @@ export default {
             }
           });
       }
+    },
+     getTrees() {
+      this.$api
+        .getTree(this.$route.params.id, { params: { type: 1 } })
+        .then((resp) => {
+          this.dataTrees = resp["tree"];
+          this.treeId = resp["id"];
+          this.maxId = resp["max"];
+        });
     },
     getTree() {
       this.$api
@@ -427,7 +569,15 @@ export default {
           this.apiData = res;
         });
     },
+    //移动切换分组并保存
+    handleSaveAPI(data){
+      this.infoSaveObj=data
+      this.dialogVisibleInfo=true
+    },
 
+    dialogBeforeClose() {
+      this.dialogVisibleInfo = false;
+    },
     //删除api
     handleDelApi(index) {
       this.$confirm("此操作将永久删除该API，是否继续?", "提示", {
@@ -486,27 +636,33 @@ export default {
   },
   mounted() {
     this.getAPIList();
+    this.getTrees();
   },
 };
 </script>
 
 <style scoped>
-.block-method{
-  width: 80px;
-}
-.block-summary-description{
-  text-align: left;
+.block-summary {
+  flex: 1;
+  height: 35px;
+  overflow: hidden;
   padding-left: 20px;
-  width: 150px;
-  overflow: hidden;/*超出部分隐藏*/
-  text-overflow:ellipsis;/* 超出部分显示省略号 */
-  white-space: nowrap;/*规定段落中的文本不进行换行 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-.block_url{
+.block-summary-description {
+  flex: 1;
+  font-size: 12px;
+  text-align: left;
+  overflow: hidden; /*超出部分隐藏*/
+  white-space: nowrap; /*规定段落中的文本不进行换行 */
+}
+.block-summary > .block_url {
+  font-size: 12px;
   flex: 1;
   text-align: left;
-  overflow: hidden;/*超出部分隐藏*/
-  text-overflow:ellipsis;/* 超出部分显示省略号 */
-  white-space: nowrap;/*规定段落中的文本不进行换行 */
+  overflow: hidden; /*超出部分隐藏*/
+  white-space: nowrap; /*规定段落中的文本不进行换行 */
 }
 </style>

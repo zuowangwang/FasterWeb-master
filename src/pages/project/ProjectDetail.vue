@@ -87,7 +87,6 @@ export default {
       });
     },
     getRouteDetails(url){
-      debugger
       this.$store.commit("setRouterName", url);
     },
   },

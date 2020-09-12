@@ -17,7 +17,7 @@
                                icon="el-icon-d-arrow-left"
                                :disabled="projectData.previous === null "
                                @click="getPagination(projectData.previous)"
-                               v-show="projectData.results.length > 9"
+                               v-show="projectData.results.length > 1"
                     >
                         上一页
                     </el-button>
@@ -27,7 +27,7 @@
                                size="small"
                                :disabled="projectData.next === null"
                                @click="getPagination(projectData.next)"
-                               v-show="projectData.results.length > 9"
+                               v-show="projectData.results.length > 1"
                     >
                         下一页
                         <i class="el-icon-d-arrow-right"></i>

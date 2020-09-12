@@ -76,44 +76,58 @@
               >
                 <div class="block block_post" v-if="item.method.toUpperCase() === 'POST' ">
                   <span class="block-method block_method_post block_method_color">POST</span>
-                  <span class="block-summary-description">{{item.name}}</span>
-                  <span class="block-method block_url">{{item.url}}</span>
+                   <div class="block-summary">  
+                    <span class="block-summary-description">{{item.name}}</span>
+                    <span class=" block_url">{{item.url}}</span>
+                   </div>
                 </div>
 
                 <div class="block block_get" v-if="item.method.toUpperCase() === 'GET' ">
                   <span class="block-method block_method_get block_method_color">GET</span>
-                  <span class="block-summary-description">{{item.name}}</span>
-                  <span class="block-method block_url">{{item.url}}</span>
+                 <div class="block-summary">  
+                    <span class="block-summary-description">{{item.name}}</span>
+                    <span class=" block_url">{{item.url}}</span>
+                   </div>
                 </div>
 
                 <div class="block block_put" v-if="item.method.toUpperCase() === 'PUT' ">
                   <span class="block-method block_method_put block_method_color">PUT</span>
-                  <span class="block-summary-description">{{item.name}}</span>
-                  <span class="block-method block_url">{{item.url}}</span>
+                 <div class="block-summary">  
+                    <span class="block-summary-description">{{item.name}}</span>
+                    <span class=" block_url">{{item.url}}</span>
+                   </div>
                 </div>
 
                 <div class="block block_delete" v-if="item.method.toUpperCase() === 'DELETE' ">
                   <span class="block-method block_method_delete block_method_color">DELETE</span>
-                  <span class="block-summary-description">{{item.name}}</span>
-                  <span class="block-method block_url">{{item.url}}</span>
+                 <div class="block-summary">  
+                    <span class="block-summary-description">{{item.name}}</span>
+                    <span class=" block_url">{{item.url}}</span>
+                   </div>
                 </div>
 
                 <div class="block block_patch" v-if="item.method.toUpperCase() === 'PATCH' ">
                   <span class="block-method block_method_patch block_method_color">PATCH</span>
-                  <span class="block-summary-description">{{item.name}}</span>
-                  <span class="block-method block_url">{{item.url}}</span>
+                 <div class="block-summary">  
+                    <span class="block-summary-description">{{item.name}}</span>
+                    <span class=" block_url">{{item.url}}</span>
+                   </div>
                 </div>
 
                 <div class="block block_head" v-if="item.method.toUpperCase() === 'HEAD' ">
                   <span class="block-method block_method_head block_method_color">HEAD</span>
-                  <span class="block-summary-description">{{item.name}}</span>
-                  <span class="block-method block_url">{{item.url}}</span>
+                 <div class="block-summary">  
+                    <span class="block-summary-description">{{item.name}}</span>
+                    <span class=" block_url">{{item.url}}</span>
+                   </div>
                 </div>
 
                 <div class="block block_options" v-if="item.method.toUpperCase()=== 'OPTIONS' ">
                   <span class="block-method block_method_options block_method_color">OPTIONS</span>
-                  <span class="block-summary-description">{{item.name}}</span>
-                  <span class="block-method block_url">{{item.url}}</span>
+                 <div class="block-summary">  
+                    <span class="block-summary-description">{{item.name}}</span>
+                    <span class=" block_url">{{item.url}}</span>
+                   </div>
                 </div>
               </div>
             </div>
@@ -550,21 +564,26 @@ export default {
   outline: none;
   background: rgba(236, 248, 238, 0.4);
 }
-.block-method{
-  width: 100px;
+.block-summary {
+  flex: 1;
+  height: 35px;
+  overflow: hidden;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .block-summary-description{
-  width: 100px;
-  padding-left: 20px;
+  flex: 1;
+  font-size: 12px;
   overflow: hidden;/*超出部分隐藏*/
-  text-overflow:ellipsis;/* 超出部分显示省略号 */
   white-space: nowrap;/*规定段落中的文本不进行换行 */
 }
 .block_url{
   flex:1;
+  font-size: 12px;
   text-align: left;
   overflow: hidden;/*超出部分隐藏*/
-  text-overflow:ellipsis;/* 超出部分显示省略号 */
   white-space: nowrap;/*规定段落中的文本不进行换行 */
 }
 </style>
