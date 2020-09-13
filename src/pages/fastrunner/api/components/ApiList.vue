@@ -257,7 +257,7 @@
               </span>
             </el-tree>
             <div slot="footer">
-              <el-button @click="dialogVisible = false">取 消</el-button>
+              <el-button @click="dialogVisibleInfo = false">取 消</el-button>
               <el-button type="primary" @click="openHandleClik()">确 定</el-button>
             </div>
           </el-dialog>
@@ -427,6 +427,7 @@ export default {
           if (resp.success) {
             this.$notify.success(resp.msg);
             this.$emit("addSuccess");
+            location.reload();
             this.dialogVisibleInfo = false;
           } else {
             this.$notify.error(resp.msg);
