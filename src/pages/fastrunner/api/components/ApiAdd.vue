@@ -23,7 +23,7 @@
         </div>
       </div>
     </el-header>
-    <div style="margin-left: 10px">
+    <div style="margin-left: 30px;margin-top:20px;width:1400px">
       <div>
         <div>
           <el-input style="width: 60%" placeholder="请输入接口名称" v-model="name" clearable>
