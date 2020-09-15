@@ -209,6 +209,7 @@
                 editVariablesForm: {
                     key: '',
                     value: '',
+                    project: '',
                     id: ''
                 },
 
@@ -238,6 +239,7 @@
                 this.editVariablesForm = {
                     key: row.key,
                     value: row.value,
+                    project: row.project,
                     id: row.id
                 };
 
