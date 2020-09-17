@@ -28,4 +28,8 @@
     .el-menu--collapse .el-menu .el-submenu, .el-menu--popup{
         min-width: 140px;
     }
+    #app{
+        width: 100%;
+        height: 100%;
+    }
 </style>
