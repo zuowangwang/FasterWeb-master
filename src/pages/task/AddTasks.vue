@@ -33,6 +33,7 @@
                 <el-radio label="仅失败发送"></el-radio>
                 <el-radio label="从不发送"></el-radio>
                 <el-radio label="监控邮件"></el-radio>
+                <el-radio label="仅成功发送"></el-radio>
               </el-radio-group>
             </el-form-item>
             <el-form-item label="报警次数" prop="fail_count" v-show="ruleForm.strategy === '监控邮件'">
