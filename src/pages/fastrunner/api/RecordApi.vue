@@ -395,18 +395,81 @@ export default {
       this.tableData = results;
       this.tableHeader = header;
     },
+    chineseChar2englishChar(chineseChar) {
+      // 将单引号‘’都转换成'，将双引号“”都转换成"
+      var str = chineseChar.replace(/\’|\‘/g, "'").replace(/\“|\”/g, '"');
+      // 将中括号【】转换成[]，将大括号｛｝转换成{}
+      str = str
+        .replace(/\【/g, "[")
+        .replace(/\】/g, "]")
+        .replace(/\｛/g, "{")
+        .replace(/\｝/g, "}");
+      // 将逗号，转换成,，将：转换成:
+      str = str.replace(/，/g, ",").replace(/：/g, ":");
+      return str;
+    },
     uploadSuccess(response) {
       let keyArry = {};
       let dataObj = {};
-      dataObj.nodeId = this.currentNode.id;
-      dataObj.project = this.$route.params.id;
+      let params = {};
+      params.nodeId = this.currentNode.id;
+      params.project = this.$route.params.id;
+      params.bulk_add = true;
       let keyList = this.tableData[0];
       let urlList = this.tableData;
       try {
         for (var b = 1; b <= urlList.length; b++) {
+          let request = {};
+          let hooks = {};
           var objs = Object.keys(urlList[b]).reduce((newData, key) => {
             let newKey = keyList[key] || key;
-            newData[newKey] = urlList[b][key];
+            urlList[b][key] = this.chineseChar2englishChar(urlList[b][key]);
+            if (
+              newKey == "json" ||
+              newKey == "form" ||
+              newKey == "params" ||
+              newKey == "files"
+            ) {
+              //  request[newKey]= JSON.parse(urlList[b][key])
+              if (newKey == "json") {
+                request["json"] = JSON.parse(urlList[b][key]);
+              } else if (newKey == "form") {
+                request["form"] = JSON.parse(urlList[b][key]);
+              } else if (newKey == "params") {
+                request["params"] = JSON.parse(urlList[b][key]);
+              } else if (newKey == "files") {
+                request["files"] = JSON.parse(urlList[b][key]);
+              }
+            } else {
+              if (
+                newKey == "header" ||
+                newKey == "extract" ||
+                newKey == "variables"
+              ) {
+                if (newKey == "header") {
+                  newData["header"] = JSON.parse(urlList[b][key]);
+                } else if (newKey == "extract") {
+                  newData["extract"] = JSON.parse(urlList[b][key]);
+                } else if (newKey == "variables") {
+                  newData["variables"] = JSON.parse(urlList[b][key]);
+                }
+              } else if (newKey == "validate") {
+                newData[newKey] = JSON.parse(urlList[b][key]);
+              } else if (
+                newKey == "setup_hooks" ||
+                newKey == "teardown_hooks"
+              ) {
+                if (newKey == "setup_hooks") {
+                  hooks["setup_hooks"] = eval("(" + urlList[b][key] + ")");
+                } else if (newKey == "teardown_hooks") {
+                  hooks["teardown_hooks"] = eval("(" + urlList[b][key] + ")");
+                }
+              } else {
+                newData[newKey] = urlList[b][key];
+              }
+            }
+            newData["hooks"] = hooks;
+            newData["request"] = request;
             return newData;
           }, {});
           dataObj["temp" + b] = objs;
@@ -415,9 +478,13 @@ export default {
         //   this.$notify.error('文件格式错误,请重新上传')
       } finally {
         //上传数据集合
-        dataObj;
-        this.$notify.success("文件上传成功");
-        this.tableHeaderVisible = false;
+        params.interfaces = dataObj;
+        this.$api.addAPI(params).then((res) => {
+          if (res.success) {
+            this.$notify.success("文件上传成功");
+            this.tableHeaderVisible = false;
+          }
+        });
       }
     },
     handleDragEnd() {
