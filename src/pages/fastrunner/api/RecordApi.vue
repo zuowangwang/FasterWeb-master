@@ -169,14 +169,14 @@
           :run="run"
         ></api-list>
       </el-main>
-      <el-dialog title="接口信息录入详情" width="80%" :visible.sync="tableHeaderVisible">
+      <el-dialog :title="testCaseTitle" width="80%" :visible.sync="tableHeaderVisible">
         <div class="table-content">
           <el-table :data="tableData" border highlight-current-row style="overfllow-y:scroll">
             <el-table-column v-for="item of tableHeader" :key="item" :prop="item" :label="item" />
           </el-table>
         </div>
-        <div style="text-align: right;margin:20px;font-size:18px;">共计:{{tableData.length-1}}条</div>
         <div slot="footer" class="dialog-footer">
+          <div class="total" style="font-size:18px;">共计:{{tableData.length-1}}条</div>
           <el-button @click="tableHeaderVisible = false">取 消</el-button>
           <el-button type="primary" @click="uploadSuccess()">确 定</el-button>
         </div>
@@ -360,6 +360,7 @@ export default {
         ],
       },
       radio: "根节点",
+      testCaseTitle:'',
       addAPIFlag: false,
       treeId: "",
       maxId: "",
@@ -423,7 +424,9 @@ export default {
           let hooks = {};
           var objs = Object.keys(urlList[b]).reduce((newData, key) => {
             let newKey = keyList[key] || key;
-            urlList[b][key] = this.chineseChar2englishChar(urlList[b][key]);
+            if(newKey!='times'){
+               urlList[b][key] = this.chineseChar2englishChar(urlList[b][key]);
+            }
             if (
               newKey == "json" ||
               newKey == "form" ||
@@ -593,6 +596,7 @@ export default {
     },
 
     handleNodeClick(node, data) {
+      this.testCaseTitle = data.parent.label?data.parent.label+'项目   '+node.label+'分组 录入测试用例' :node.label+'项目   录入测试用例'
       this.addAPIFlag = false;
       this.currentNode = node;
       this.data = data;
@@ -648,5 +652,11 @@ export default {
   height: 55vh;
   overflow-x: hidden;
   overflow-y: scroll;
+}
+.dialog-footer>.total{
+  line-height: 40.23px;
+  width: 120px;
+  margin-right: 20px;
+  display: inline-block;
 }
 </style>
