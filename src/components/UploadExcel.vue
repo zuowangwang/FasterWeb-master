@@ -4,7 +4,7 @@
     <div class="drop" @drop="handleDrop" @dragover="handleDragover" @dragenter="handleDragover">
       <!-- Drop excel file here or -->
       <el-button :loading="loading" :disabled='addAPIFlag' type="warning" size="small" icon="el-icon-upload" title="只能上传jpg/png/xlsx/xls文件"  @click="handleUpload">
-        上传文件
+        上传测试用例
       </el-button>
     </div>
   </div>
