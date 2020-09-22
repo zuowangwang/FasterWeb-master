@@ -408,7 +408,7 @@ export const helpAdd = (params)=>{
 }
 //帮助文档查询
 export const helpList = ()=>{
-    return axios.get('/api/fastrunner/help_menu/',).then(res => res)
+    return axios.get('/api/fastrunner/help_menu/').then(res => res)
 }
 //删除帮助文档
 export const helpDelete = (url)=>{

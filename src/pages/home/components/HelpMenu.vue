@@ -231,7 +231,7 @@ export default {
           title: this.title,
           content: this.input,
         };
-        this.$api.helpAdd(params).then((res) => {
+       this.$api.helpAdd(params).then((res) => {
           if (res.status == 200) {
             this.$notify.success("帮助文档添加成功");
             val.disabled = false;
@@ -241,7 +241,9 @@ export default {
       }
     },
     helpListInfo() {
-      this.$api.helpList().then((res) => {
+
+    console.log(this.$api)
+     this.$api.helpList().then((res) => {
         if (res.status == 200) {
           let datalist = res.data;
           let arr = [];
