@@ -1,5 +1,5 @@
 <template>
-  <div style="padding:40px;box-sizing:border-box;height:60%;overflow:fidden">
+  <div style="padding:40px;box-sizing:border-box;width:70%;overflow:fidden">
     <el-tabs
       v-model="editableTabsValue"
       type="card"
@@ -16,7 +16,7 @@
         <el-input
           v-if="item.disabled"
           type="textarea"
-          :rows="40"
+          :rows="30"
           placeholder="请输入内容"
           v-model="input"
         ></el-input>
@@ -33,7 +33,7 @@
         <el-button
           type="primary"
           v-if="!item.disabled"
-          @click="editor(item)"
+          @click="editor(item,index)"
           style="float:right;margin-top:20px"
         >编辑</el-button>
       </el-tab-pane>
@@ -206,10 +206,10 @@ export default {
       });
       this.title = tab.label;
     },
-    editor(val) {
+    editor(val,index) {
       val.disabled = true;
       this.editors = true;
-      this.input = val.content;
+      this.input =this.editableTabs[index].input;
     },
     submit(val, index) {
       if (this.editors) {
@@ -249,6 +249,7 @@ export default {
             let content = item.content.replace(/[\r\n]/g,"</br>")
             arr.push({
               title: item.title,
+              input:item.content,
               content: content,
               id: item.id,
               name: this.numToStr(index),
@@ -269,7 +270,7 @@ export default {
 
 <style  scoped>
 .content {
-  height: 800px;
+  height: 600px;
   overflow: scroll;
   border: 2px solid #E4E7ED;
   border-radius:0 0 6px 6px;

@@ -165,6 +165,7 @@
           :config="currentConfig"
           :host="currentHost"
           :del="del"
+          ref="ApiList"
           :back="back"
           :run="run"
         ></api-list>
@@ -487,7 +488,8 @@ export default {
           if (res.success) {
             this.$notify.success("测试用例上传成功");
             this.tableHeaderVisible = false;
-             this.reload() //局部刷新
+            this.$refs.ApiList.getAPIList()//列表刷新
+            //  this.reload() //局部刷新
           }
         });
       }
@@ -547,7 +549,7 @@ export default {
             this.dataTree = resp["tree"];
             this.maxId = resp["max"];
             this.$notify.success("更新成功");
-             this.reload() //局部刷新
+            //  this.reload() //局部刷新
           } else {
             this.$message.error(resp["msg"]);
           }
