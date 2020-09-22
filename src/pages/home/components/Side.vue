@@ -89,6 +89,7 @@
 <script>
 export default {
   name: "Side",
+   inject: ['reload'], //注入
   data() {
     return {
       side_menu: [
@@ -120,7 +121,7 @@ export default {
       this.$store.commit("setRouterName", url);
       this.setLocalValue("routerName", url);
       if (name == url) {
-        location.reload();
+        this.reload() //局部刷新
       } else {
         this.$router.push({ name: url });
       }

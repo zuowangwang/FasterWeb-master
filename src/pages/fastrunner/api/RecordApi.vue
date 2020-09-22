@@ -377,7 +377,8 @@ export default {
       tableHeader: [],
     };
   },
-  methods: {
+ inject: ['reload'], //注入
+ methods: {
     beforeUpload(file) {
       const isLt1M = file.size / 1024 / 1024 < 1;
 
@@ -484,8 +485,9 @@ export default {
         params.interfaces = dataObj;
         this.$api.addAPI(params).then((res) => {
           if (res.success) {
-            this.$notify.success("文件上传成功");
+            this.$notify.success("测试用例上传成功");
             this.tableHeaderVisible = false;
+             this.reload() //局部刷新
           }
         });
       }
@@ -545,6 +547,7 @@ export default {
             this.dataTree = resp["tree"];
             this.maxId = resp["max"];
             this.$notify.success("更新成功");
+             this.reload() //局部刷新
           } else {
             this.$message.error(resp["msg"]);
           }
@@ -596,7 +599,8 @@ export default {
     },
 
     handleNodeClick(node, data) {
-      this.testCaseTitle = data.parent.label?data.parent.label+'项目   '+node.label+'分组 录入测试用例' :node.label+'项目   录入测试用例'
+      let title = data.parent.label? data.parent.label+'模块 '+node.label+'子模块 导入测试用例':node.label+'模块   导入测试用例'
+      this.testCaseTitle = this.$store.state.headTitle+', '+title
       this.addAPIFlag = false;
       this.currentNode = node;
       this.data = data;

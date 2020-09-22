@@ -159,34 +159,40 @@ export default {
       if (action === "add") {
         this.dialogVisible = true;
         this.title = "";
-        this.input =''
+        this.input = "";
       }
       if (action === "remove") {
         let tabs = this.editableTabs;
         let activeName = this.editableTabsValue;
-        if (activeName === targetName) {
-          tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
-              if (nextTab) {
-                activeName = nextTab.name;
+        this.$confirm("此操作将永久删除该帮助文档, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }).then(() => {
+          if (activeName === targetName) {
+            tabs.forEach((tab, index) => {
+              if (tab.name === targetName) {
+                let nextTab = tabs[index + 1] || tabs[index - 1];
+                if (nextTab) {
+                  activeName = nextTab.name;
+                }
               }
-            }
-          });
-          this.editableTabs.forEach((item) => {
-            if (item.id) {
-              if (targetName == item.name) {
-                this.$api.helpDelete(item.id).then((res) => {
-                  if (res.success) {
-                    this.$notify.success("文档删除成功");
-                  }
-                });
+            });
+            this.editableTabs.forEach((item) => {
+              if (item.id) {
+                if (targetName == item.name) {
+                  this.$api.helpDelete(item.id).then((res) => {
+                    if (res.success) {
+                      this.$notify.success("文档删除成功");
+                    }
+                  });
+                }
               }
-            }
-          });
-        }
-        this.editableTabsValue = activeName;
-        this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
+            });
+          }
+          this.editableTabsValue = activeName;
+          this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
+        });
       }
     },
     handleClick(tab, event) {
@@ -264,5 +270,9 @@ export default {
 .content {
   height: 800px;
   overflow: scroll;
+  border: 2px solid #E4E7ED;
+  border-radius:0 0 6px 6px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 </style>
