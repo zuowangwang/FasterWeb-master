@@ -1,5 +1,5 @@
 <template>
-  <div style="padding:40px;box-sizing:border-box;height:1000px;overflow:fidden">
+  <div style="padding:40px;box-sizing:border-box;height:60%;overflow:fidden">
     <el-tabs
       v-model="editableTabsValue"
       type="card"
@@ -246,9 +246,10 @@ export default {
           let datalist = res.data;
           let arr = [];
           datalist.forEach((item, index) => {
+            let content = item.content.replace(/[\r\n]/g,"</br>")
             arr.push({
               title: item.title,
-              content: item.content,
+              content: content,
               id: item.id,
               name: this.numToStr(index),
               disabled: false,
