@@ -14,6 +14,7 @@
         :name="item.name"
       >
         <el-input
+          class="show"
           v-if="item.disabled"
           type="textarea"
           :rows="30"
@@ -21,9 +22,8 @@
           v-model="input"
         ></el-input>
         <div v-else class="content">
-          <div v-html="item.content"></div>
+          <pre v-html="item.content"></pre>
         </div>
-
         <el-button
           type="primary"
           v-if="item.disabled"
@@ -206,10 +206,10 @@ export default {
       });
       this.title = tab.label;
     },
-    editor(val,index) {
+    editor(val, index) {
       val.disabled = true;
       this.editors = true;
-      this.input =this.editableTabs[index].input;
+      this.input = this.editableTabs[index].input;
     },
     submit(val, index) {
       if (this.editors) {
@@ -227,11 +227,12 @@ export default {
         });
       } else {
         //新增
+        // let content =this.input.replace(/\n/g, "<br/>").replace(/\s/g, " ")
         let params = {
           title: this.title,
-          content: this.input,
+          content: content,
         };
-       this.$api.helpAdd(params).then((res) => {
+        this.$api.helpAdd(params).then((res) => {
           if (res.status == 200) {
             this.$notify.success("帮助文档添加成功");
             val.disabled = false;
@@ -241,17 +242,18 @@ export default {
       }
     },
     helpListInfo() {
-
-    console.log(this.$api)
-     this.$api.helpList().then((res) => {
+      console.log(this.$api);
+      this.$api.helpList().then((res) => {
         if (res.status == 200) {
           let datalist = res.data;
           let arr = [];
           datalist.forEach((item, index) => {
-            let content = item.content.replace(/[\r\n]/g,"</br>")
+            let content = item.content
+              .replace(/[\r\n]/g, "</br>")
+              .replace(/\s/g, " ");
             arr.push({
               title: item.title,
-              input:item.content,
+              input: item.content,
               content: content,
               id: item.id,
               name: this.numToStr(index),
@@ -271,12 +273,22 @@ export default {
 </script>
 
 <style  scoped>
+::-webkit-scrollbar {
+  /*隐藏滚轮*/
+  display: none;
+}
 .content {
   height: 600px;
   overflow: scroll;
-  border: 2px solid #E4E7ED;
-  border-radius:0 0 6px 6px;
+  border: 2px solid #e4e7ed;
+  border-radius: 0 0 6px 6px;
   padding: 20px;
   box-sizing: border-box;
+  font-size: 14px;
+}
+.show {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 </style>
