@@ -67,6 +67,14 @@
             :before-upload="beforeUpload"
           />
           <el-button
+            v-if="!addAPIFlag "
+            type="primary"
+            size="small"
+            icon="el-icon-document"
+            @click="downloads =!downloads"
+            style="margin-left: 0px"
+          >下载模版</el-button>
+          <el-button
             v-if="!addAPIFlag"
             style="margin-left: 20px"
             type="primary"
@@ -164,6 +172,7 @@
           :project="$route.params.id"
           :config="currentConfig"
           :host="currentHost"
+          :downloads='downloads'
           :del="del"
           ref="ApiList"
           :back="back"
@@ -286,6 +295,7 @@ export default {
       back: false,
       del: false,
       run: false,
+      downloads:false,
       tableHeaderVisible: false,
       response: {
         id: "",
@@ -433,10 +443,11 @@ export default {
               newKey == "json" ||
               newKey == "form" ||
               newKey == "params" ||
-              newKey == "files"
+              newKey == "files"||
+              newKey=='json_data'
             ) {
               //  request[newKey]= JSON.parse(urlList[b][key])
-              if (newKey == "json") {
+              if (newKey == "json" || newKey=='json_data') {
                 request["json"] = JSON.parse(urlList[b][key]);
               } else if (newKey == "form") {
                 request["form"] = JSON.parse(urlList[b][key]);

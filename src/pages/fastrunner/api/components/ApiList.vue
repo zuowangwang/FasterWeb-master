@@ -291,6 +291,8 @@ export default {
       require: true,
     },
     del: Boolean,
+    downloads:Boolean,
+
   },
   data() {
     return {
@@ -317,17 +319,40 @@ export default {
         count: 0,
         results: [],
       },
+      list:[],
     };
   },
   watch: {
     filterText(val) {
       this.$refs.tree.filter(val);
     },
-
     run() {
       this.asyncs = false;
       this.reportName = "";
       this.getTree();
+    },
+    downloads(){
+      let that =this
+       if (this.selectAPI.length !== 0) {
+          import('@/vendor/Export2Excel').then(excel => {
+          const tHeader = ['接口名称-必填','请求方式-必填','请求地址-必填','Header请求头', '循环次数', 'Request请求值-json(request请求值，四个值，如果其中一个有值，其他的都要给默认值:{})', 'Request请求值-form', 'Request请求值-params','Request请求值-files'
+          ,'Extract提取返回值','Validate校验','Variables临时变量','Hooks请求时候执行的脚本方法-请求前','Hooks请求时候执行的脚本方法-请求后'
+          ]
+          const filterVal = ['name', 'method', 'url', 'header','times','json','form','params','files','extract','validate','variables','setup_hooks','teardown_hooks']
+          that.conversionList(that.apiData.results)
+          const data = that.formatJson(filterVal, this.list)
+          excel.export_json_to_excel({
+            header: tHeader,
+            data,
+            filename: that.filename
+          })
+          that.$refs.multipleTable.clearSelection()
+        })
+      } else {
+        this.$notify.warning({
+          message: "请至少选择一个接口",
+        });
+      }
     },
     back() {
       this.getAPIList();
@@ -364,6 +389,28 @@ export default {
   },
 
   methods: {
+     formatJson(filterVal, jsonData) {
+      return jsonData.map(v => filterVal.map(j => v[j]))
+    },
+    conversionList(data){
+     data.forEach((item,index)=>{
+        item['name']=item.name
+        item['method']=item.method
+        item['url']=item.url
+        item['header']=JSON.stringify(item.body.header)
+        item['times']=item.body.times
+        item['json']=JSON.stringify(item.body.request.json_data)||JSON.stringify(item.body.request.json)
+        item['form']=JSON.stringify(item.body.request.form)||''
+        item['params']=JSON.stringify(item.body.request.params)||''
+        item['files']=JSON.stringify(item.body.request.files)||''
+        item['extract']=JSON.stringify(item.body.extract)||''
+        item['validate']=JSON.stringify(item.body.validate)||''
+        item['variables']=JSON.stringify(item.body.variables)||''
+        item['setup_hooks']=JSON.stringify(item.body.hooks.setup_hooks)||''
+        item['teardown_hooks']=JSON.stringify(item.body.hooks.eardown_hooks)||''
+      })
+      this.list = data
+    },
     handleDragEnd() {
       // this.updateTree(false);
     },
