@@ -1,7 +1,7 @@
 <template>
   <el-container>
-    <el-header style="padding: 0; height: 50px;">
-      <div style=" padding-left: 10px;">
+    <el-header style="padding: 0; height: 50px">
+      <div style="padding-left: 10px">
         <el-row :gutter="50">
           <el-col :span="0.5">
             <el-checkbox
@@ -12,8 +12,17 @@
           </el-col>
 
           <el-col :span="7" style="margin-left: 0px">
-            <el-input placeholder="请输入接口名称" clearable v-model="search" @clear="closeList()">
-              <el-button slot="append" icon="el-icon-search" @click="getAPIList"></el-button>
+            <el-input
+              placeholder="请输入接口名称"
+              clearable
+              v-model="search"
+              @clear="closeList()"
+            >
+              <el-button
+                slot="append"
+                icon="el-icon-search"
+                @click="getAPIList"
+              ></el-button>
             </el-input>
           </el-col>
 
@@ -25,12 +34,20 @@
     </el-header>
 
     <el-container>
-      <el-main style="padding: 0; margin-left: 10px;">
-        <el-dialog v-if="dialogTableVisible" :visible.sync="dialogTableVisible" width="70%">
+      <el-main style="padding: 0; margin-left: 10px">
+        <el-dialog
+          v-if="dialogTableVisible"
+          :visible.sync="dialogTableVisible"
+          width="70%"
+        >
           <report :summary="summary"></report>
         </el-dialog>
 
-        <el-dialog title="Run API Tree" :visible.sync="dialogTreeVisible" width="40%">
+        <el-dialog
+          title="Run API Tree"
+          :visible.sync="dialogTreeVisible"
+          width="40%"
+        >
           <div>
             <div>
               <el-row :gutter="2">
@@ -86,12 +103,18 @@
             </div>
           </div>
           <span slot="footer" class="dialog-footer">
-            <el-button size="small" @click="dialogTreeVisible = false">取 消</el-button>
-            <el-button size="small" type="primary" @click="runTree">确 定</el-button>
+            <el-button size="small" @click="dialogTreeVisible = false"
+              >取 消</el-button
+            >
+            <el-button size="small" type="primary" @click="runTree"
+              >确 定</el-button
+            >
           </span>
         </el-dialog>
 
-        <div style="position: fixed; bottom: 0; right:0; left: 460px; top: 160px">
+        <div
+          style="position: fixed; bottom: 0; right: 0; left: 460px; top: 160px"
+        >
           <el-table
             v-loading="loading"
             element-loading-text="正在玩命加载"
@@ -100,71 +123,122 @@
             ref="multipleTable"
             :data="apiData.results"
             :show-header="false"
-            :cell-style="{paddingTop: '4px', paddingBottom: '4px'}"
+            :cell-style="{ paddingTop: '4px', paddingBottom: '4px' }"
             @cell-mouse-enter="cellMouseEnter"
             @cell-mouse-leave="cellMouseLeave"
-            style="width: 100%;"
+            style="width: 100%"
             @selection-change="handleSelectionChange"
           >
             <el-table-column type="selection" width="50"></el-table-column>
 
             <el-table-column align="center">
               <template slot-scope="scope">
-                <div class="block block_post" v-if="scope.row.method.toUpperCase() === 'POST' ">
-                  <span class="block-method block_method_post block_method_color">POST</span>
+                <div
+                  class="block block_post"
+                  v-if="scope.row.method.toUpperCase() === 'POST'"
+                >
+                  <span
+                    class="block-method block_method_post block_method_color"
+                    >POST</span
+                  >
                   <div class="block-summary">
-                    <span class="block-summary-description">{{scope.row.name}}</span>
-                    <span class="block_url">{{scope.row.url}}</span>
+                    <span class="block-summary-description">{{
+                      scope.row.name
+                    }}</span>
+                    <span class="block_url">{{ scope.row.url }}</span>
                   </div>
                 </div>
 
-                <div class="block block_get" v-if="scope.row.method.toUpperCase() === 'GET' ">
-                  <span class="block-method block_method_get block_method_color">GET</span>
+                <div
+                  class="block block_get"
+                  v-if="scope.row.method.toUpperCase() === 'GET'"
+                >
+                  <span class="block-method block_method_get block_method_color"
+                    >GET</span
+                  >
                   <div class="block-summary">
-                    <span class="block-summary-description">{{scope.row.name}}</span>
-                    <span class="block_url">{{scope.row.url}}</span>
+                    <span class="block-summary-description">{{
+                      scope.row.name
+                    }}</span>
+                    <span class="block_url">{{ scope.row.url }}</span>
                   </div>
                 </div>
 
-                <div class="block block_put" v-if="scope.row.method.toUpperCase() === 'PUT' ">
-                  <span class="block-method block_method_put block_method_color">PUT</span>
+                <div
+                  class="block block_put"
+                  v-if="scope.row.method.toUpperCase() === 'PUT'"
+                >
+                  <span class="block-method block_method_put block_method_color"
+                    >PUT</span
+                  >
                   <div class="block-summary">
-                    <span class="block-summary-description">{{scope.row.name}}</span>
-                    <span class="block_url">{{scope.row.url}}</span>
+                    <span class="block-summary-description">{{
+                      scope.row.name
+                    }}</span>
+                    <span class="block_url">{{ scope.row.url }}</span>
                   </div>
                 </div>
 
-                <div class="block block_delete" v-if="scope.row.method.toUpperCase() === 'DELETE' ">
-                  <span class="block-method block_method_delete block_method_color">DELETE</span>
+                <div
+                  class="block block_delete"
+                  v-if="scope.row.method.toUpperCase() === 'DELETE'"
+                >
+                  <span
+                    class="block-method block_method_delete block_method_color"
+                    >DELETE</span
+                  >
                   <div class="block-summary">
-                    <span class="block-summary-description">{{scope.row.name}}</span>
-                    <span class="block_url">{{scope.row.url}}</span>
+                    <span class="block-summary-description">{{
+                      scope.row.name
+                    }}</span>
+                    <span class="block_url">{{ scope.row.url }}</span>
                   </div>
                 </div>
 
-                <div class="block block_patch" v-if="scope.row.method.toUpperCase() === 'PATCH' ">
-                  <span class="block-method block_method_patch block_method_color">PATCH</span>
+                <div
+                  class="block block_patch"
+                  v-if="scope.row.method.toUpperCase() === 'PATCH'"
+                >
+                  <span
+                    class="block-method block_method_patch block_method_color"
+                    >PATCH</span
+                  >
                   <div class="block-summary">
-                    <span class="block-summary-description">{{scope.row.name}}</span>
-                    <span class="block_url">{{scope.row.url}}</span>
+                    <span class="block-summary-description">{{
+                      scope.row.name
+                    }}</span>
+                    <span class="block_url">{{ scope.row.url }}</span>
                   </div>
                 </div>
 
-                <div class="block block_head" v-if="scope.row.method.toUpperCase() === 'HEAD' ">
-                  <span class="block-method block_method_head block_method_color">HEAD</span>
+                <div
+                  class="block block_head"
+                  v-if="scope.row.method.toUpperCase() === 'HEAD'"
+                >
+                  <span
+                    class="block-method block_method_head block_method_color"
+                    >HEAD</span
+                  >
                   <div class="block-summary">
-                    <span class="block-summary-description">{{scope.row.name}}</span>
-                    <span class="block_url">{{scope.row.url}}</span>
+                    <span class="block-summary-description">{{
+                      scope.row.name
+                    }}</span>
+                    <span class="block_url">{{ scope.row.url }}</span>
                   </div>
                 </div>
 
                 <div
                   class="block block_options"
-                  v-if="scope.row.method.toUpperCase()=== 'OPTIONS' "
+                  v-if="scope.row.method.toUpperCase() === 'OPTIONS'"
                 >
-                  <span class="block-summary-description">{{scope.row.name}}</span>
-                  <span class="block_url">{{scope.row.url}}</span>
-                  <span class="block-method block_method_options block_method_color">OPTIONS</span>
+                  <span class="block-summary-description">{{
+                    scope.row.name
+                  }}</span>
+                  <span class="block_url">{{ scope.row.url }}</span>
+                  <span
+                    class="block-method block_method_options block_method_color"
+                    >OPTIONS</span
+                  >
                 </div>
               </template>
             </el-table-column>
@@ -216,11 +290,11 @@
               </template>
             </el-table-column>
           </el-table>
-          <div style="float:right;margin-top:20px;margin-right:40px">
+          <div style="float: right; margin-top: 20px; margin-right: 40px">
             <el-pagination
-              style="margin-top: 5px;"
+              style="margin-top: 5px"
               :page-size="11"
-              v-show="apiData.count !== 0 "
+              v-show="apiData.count !== 0"
               background
               @current-change="handleCurrentChange"
               :current-page.sync="currentPage"
@@ -258,7 +332,9 @@
             </el-tree>
             <div slot="footer">
               <el-button @click="dialogVisibleInfo = false">取 消</el-button>
-              <el-button type="primary" @click="openHandleClik()">确 定</el-button>
+              <el-button type="primary" @click="openHandleClik()"
+                >确 定</el-button
+              >
             </div>
           </el-dialog>
         </div>
@@ -291,8 +367,7 @@ export default {
       require: true,
     },
     del: Boolean,
-    downloads:Boolean,
-
+    downloads: Boolean,
   },
   data() {
     return {
@@ -319,7 +394,7 @@ export default {
         count: 0,
         results: [],
       },
-      list:[],
+      list: [],
     };
   },
   watch: {
@@ -331,28 +406,49 @@ export default {
       this.reportName = "";
       this.getTree();
     },
-    downloads(){
-      let that =this
-       if (this.selectAPI.length !== 0) {
-          import('@/vendor/Export2Excel').then(excel => {
-          const tHeader = ['接口名称-必填','请求方式-必填','请求地址-必填','Header请求头', '循环次数', 'Request请求值-json(request请求值，四个值，如果其中一个有值，其他的都要给默认值:{})', 'Request请求值-form', 'Request请求值-params','Request请求值-files'
-          ,'Extract提取返回值','Validate校验','Variables临时变量','Hooks请求时候执行的脚本方法-请求前','Hooks请求时候执行的脚本方法-请求后'
-          ]
-          const filterVal = ['name', 'method', 'url', 'header','times','json','form','params','files','extract','validate','variables','setup_hooks','teardown_hooks']
-          that.conversionList(that.apiData.results)
-          const data = that.formatJson(filterVal, this.list)
-          excel.export_json_to_excel({
-            header: tHeader,
-            data,
-            filename: that.filename
-          })
-          that.$refs.multipleTable.clearSelection()
-        })
-      } else {
-        this.$notify.warning({
-          message: "请至少选择一个接口",
-        });
-      }
+    downloads() {
+      let that = this;
+      let data = [{ name: "", url: "" }, {}];
+      data.forEach((item, index) => {
+        if (index == 0) {
+          item["name"] = "name";
+          item["method"] = "method";
+          item["url"] = "url";
+          item["header"] ="header"
+          item["times"] = "times";
+          item["json"] ="json"
+          item["form"] ="form";
+          item["params"] ="params";
+          item["files"] = 'files';
+          item["extract"] ='extract'
+          item["validate"] = 'validate';
+          item["variables"] ='variables'
+          item["setup_hooks"] = 'setup_hooks';
+          item["teardown_hooks"] = 'teardown_hooks';
+        } else {
+          item["name"] = "测试模板";
+          item["method"] = "POST";
+          item["url"] = "/api/rendering/user/userLogin";
+          item["header"] =
+            '{ "header": {  "Content-Type": "application/json", "version": " 1.0.0", "Connection": "keep-alive", "Accept": " application/json, text/plain, */*" } }';
+          item["times"] = "1";
+          item["json"] =
+            '{ "userName": "RD_zuowangwang_test2", "password": "2edf692c26918cc7d11def6ab41bbdffdbecce52"}';
+          item["form"] = '{ "data": {},"desc": {}}';
+          item["params"] = '{"params": {}, "desc": {}}';
+          item["files"] = '{ "files": {}, "desc": {}}';
+          item["extract"] =
+            '{"extract": [ {"userName": "content.data.userName"}],"desc": {"userName": "备注"}}';
+          item["validate"] = '{"validate": [ {"eq": ["content.code", 200]}]}';
+          item["variables"] =
+            '{"variables": [{"zzzz": "zzzz"}],"desc": {"zzzz": "备注"}}';
+          item["setup_hooks"] = '["${cc1()}", "${cc1()}"]';
+          item["teardown_hooks"] = '["${cc1()}", "${cc1()}"]';
+        }
+      });
+      this.list = data;
+      console.log(this.list);
+      this.downloadWorld();
     },
     back() {
       this.getAPIList();
@@ -389,27 +485,75 @@ export default {
   },
 
   methods: {
-     formatJson(filterVal, jsonData) {
-      return jsonData.map(v => filterVal.map(j => v[j]))
+    formatJson(filterVal, jsonData) {
+      return jsonData.map((v) => filterVal.map((j) => v[j]));
     },
-    conversionList(data){
-     data.forEach((item,index)=>{
-        item['name']=item.name
-        item['method']=item.method
-        item['url']=item.url
-        item['header']=JSON.stringify(item.body.header)
-        item['times']=item.body.times
-        item['json']=JSON.stringify(item.body.request.json_data)||JSON.stringify(item.body.request.json)
-        item['form']=JSON.stringify(item.body.request.form)||''
-        item['params']=JSON.stringify(item.body.request.params)||''
-        item['files']=JSON.stringify(item.body.request.files)||''
-        item['extract']=JSON.stringify(item.body.extract)||''
-        item['validate']=JSON.stringify(item.body.validate)||''
-        item['variables']=JSON.stringify(item.body.variables)||''
-        item['setup_hooks']=JSON.stringify(item.body.hooks.setup_hooks)||''
-        item['teardown_hooks']=JSON.stringify(item.body.hooks.eardown_hooks)||''
-      })
-      this.list = data
+    downloadWorld() {
+      let that = this;
+      import("@/vendor/Export2Excel").then((excel) => {
+        const tHeader = [
+          "接口名称-必填",
+          "请求方式-必填",
+          "请求地址-必填",
+          "Header请求头",
+          "循环次数",
+          "Request请求值-json(request请求值，四个值，如果其中一个有值，其他的都要给默认值:{})",
+          "Request请求值-form",
+          "Request请求值-params",
+          "Request请求值-files",
+          "Extract提取返回值",
+          "Validate校验",
+          "Variables临时变量",
+          "Hooks请求时候执行的脚本方法-请求前",
+          "Hooks请求时候执行的脚本方法-请求后",
+        ];
+        const filterVal = [
+          "name",
+          "method",
+          "url",
+          "header",
+          "times",
+          "json",
+          "form",
+          "params",
+          "files",
+          "extract",
+          "validate",
+          "variables",
+          "setup_hooks",
+          "teardown_hooks",
+        ];
+        // that.conversionList(that.apiData.results)
+        const data = that.formatJson(filterVal, this.list);
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: "测试用例模版",
+        });
+        that.$refs.multipleTable.clearSelection();
+      });
+    },
+    conversionList(data) {
+      data.forEach((item, index) => {
+        item["name"] = item.name;
+        item["method"] = item.method;
+        item["url"] = item.url;
+        item["header"] = JSON.stringify(item.body.header);
+        item["times"] = item.body.times;
+        item["json"] =
+          JSON.stringify(item.body.request.json_data) ||
+          JSON.stringify(item.body.request.json);
+        item["form"] = JSON.stringify(item.body.request.form) || "";
+        item["params"] = JSON.stringify(item.body.request.params) || "";
+        item["files"] = JSON.stringify(item.body.request.files) || "";
+        item["extract"] = JSON.stringify(item.body.extract) || "";
+        item["validate"] = JSON.stringify(item.body.validate) || "";
+        item["variables"] = JSON.stringify(item.body.variables) || "";
+        item["setup_hooks"] = JSON.stringify(item.body.hooks.setup_hooks) || "";
+        item["teardown_hooks"] =
+          JSON.stringify(item.body.hooks.eardown_hooks) || "";
+      });
+      this.list = data;
     },
     handleDragEnd() {
       // this.updateTree(false);
@@ -417,7 +561,7 @@ export default {
     addAPI() {
       let data = this.infoSaveObj;
       let arr = data.body.header;
-      let json =JSON.parse(data.body.request.json_data);
+      let json = JSON.parse(data.body.request.json_data);
       let obj = {};
       let desc = {};
       arr.forEach((item) => {
@@ -432,21 +576,21 @@ export default {
         variables: [],
         desc: {},
       };
-      data.body.request={
-      params:{
-        params: {},
-        desc: {},
-      },
-      files:{
-        files:{},
-        desc:{},
-      },
-      form:{
-        data: {},
-        desc: {},
-      },
+      data.body.request = {
+        params: {
+          params: {},
+          desc: {},
+        },
+        files: {
+          files: {},
+          desc: {},
+        },
+        form: {
+          data: {},
+          desc: {},
+        },
       };
-      data.body.request.json=json
+      data.body.request.json = json;
       data.body.extract = {
         extract: [],
         desc: {},
