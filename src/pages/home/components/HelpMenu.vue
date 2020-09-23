@@ -1,5 +1,5 @@
 <template>
-  <div style="padding:40px;box-sizing:border-box;width:70%;overflow:fidden">
+  <div style="padding:40px;box-sizing:border-box;width:80%;overflow:fidden">
     <el-tabs
       v-model="editableTabsValue"
       type="card"
@@ -116,6 +116,7 @@
 <script>
 export default {
   name: "HelpMenu",
+  inject: ["reload"], //注入
   data() {
     return {
       editors: false,
@@ -177,17 +178,13 @@ export default {
                 if (nextTab) {
                   activeName = nextTab.name;
                 }
-              }
-            });
-            this.editableTabs.forEach((item) => {
-              if (item.id) {
-                if (targetName == item.name) {
-                  this.$api.helpDelete(item.id).then((res) => {
-                    if (res.success) {
-                      this.$notify.success("文档删除成功");
-                    }
-                  });
-                }
+                this.$api.helpDelete(tab.id).then((res) => {
+                  if (res.success) {
+                    this.$notify.success("文档删除成功");
+                  }
+                });
+              } else {
+                tab.disabled = false;
               }
             });
           }
@@ -223,12 +220,11 @@ export default {
           if (res.status == 200) {
             this.$notify.success("帮助文档修改成功");
             val.disabled = false;
-            this.helpListInfo();
+            this.reload();
           }
         });
       } else {
         //新增
-        // let content =this.input.replace(/\n/g, "<br/>").replace(/\s/g, " ")
         let params = {
           title: this.title,
           content: this.input,
@@ -237,7 +233,7 @@ export default {
           if (res.status == 200) {
             this.$notify.success("帮助文档添加成功");
             val.disabled = false;
-            this.helpListInfo();
+            this.reload();
           }
         });
       }
@@ -279,7 +275,7 @@ export default {
   display: none;
 }
 .content {
-  height: 600px;
+  height: 660px;
   overflow: scroll;
   border: 1px solid #e4e7ed;
   border-radius: 0 0 6px 6px;
