@@ -157,6 +157,7 @@ export default {
     handleTabsEdit(targetName, action) {
       let that = this;
       if (action === "add") {
+        this.editors = false;
         this.dialogVisible = true;
         this.title = "";
         this.input = "";
@@ -230,7 +231,7 @@ export default {
         // let content =this.input.replace(/\n/g, "<br/>").replace(/\s/g, " ")
         let params = {
           title: this.title,
-          content: content,
+          content: this.input,
         };
         this.$api.helpAdd(params).then((res) => {
           if (res.status == 200) {
@@ -280,7 +281,7 @@ export default {
 .content {
   height: 600px;
   overflow: scroll;
-  border: 2px solid #e4e7ed;
+  border: 1px solid #e4e7ed;
   border-radius: 0 0 6px 6px;
   padding: 20px;
   box-sizing: border-box;
