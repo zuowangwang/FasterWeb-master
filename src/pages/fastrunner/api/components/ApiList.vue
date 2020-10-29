@@ -372,6 +372,7 @@ export default {
   data() {
     return {
       checked: false,
+      trigger:false,
       search: "",
       dialogVisibleInfo: false,
       infoSaveId: "",
@@ -570,11 +571,11 @@ export default {
       });
       data.body.header = { desc: desc, header: obj };
       data.body.validate = {
-        validate: [],
+        validate:[],
       };
       data.body.variables = {
-        variables: [],
-        desc: {},
+        variables:[],
+        desc:{},
       };
       data.body.request = {
         params: {
@@ -591,9 +592,16 @@ export default {
         },
       };
       data.body.request.json = json;
+      let extract =[];
+      let descs={}
+      data.body.extract.forEach((item)=>{
+      let {desc,key,value} = item
+        descs={desc:item.desc}
+        extract.push({[key]:value})
+      }) 
       data.body.extract = {
-        extract: [],
-        desc: {},
+        extract,
+        desc:descs,
       };
       data.body.hooks = {
         setup_hooks: [],
@@ -738,6 +746,10 @@ export default {
     },
     // 查询api列表
     getAPIList() {
+      if(this.trigger){
+        //触发了下一页 切换tab初始化页码
+        this.currentPage=1
+      }
       this.$api
         .apiList({
           params: {
@@ -769,6 +781,7 @@ export default {
         });
     },
     handleCurrentChange(val) {
+      this.trigger = true //触发下一页
       this.$api
         .getPaginationBypage({
           params: {

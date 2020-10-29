@@ -612,6 +612,7 @@ export default {
     },
 
     handleNodeClick(node, data) {
+      debugger
       let title = data.parent.label? data.parent.label+'模块 '+node.label+'子模块 导入测试用例':node.label+'模块   导入测试用例'
       this.testCaseTitle = this.$store.state.headTitle+', '+title
       this.addAPIFlag = false;
