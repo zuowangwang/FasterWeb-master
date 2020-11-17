@@ -1,15 +1,50 @@
 <template>
-  <div style="padding:40px;box-sizing:border-box;height:1000px;overflow:fidden">
-    <el-tabs v-model="editableTabsValue" type="card" editable @edit="handleTabsEdit">
+  <div style="padding:40px;box-sizing:border-box;width:80%;overflow:fidden">
+    <el-tabs
+      v-model="editableTabsValue"
+      type="card"
+      @tab-click="handleClick"
+      editable
+      @edit="handleTabsEdit"
+    >
       <el-tab-pane
-        :key="item.name"
-        v-for="item in editableTabs"
+        :key="index"
+        v-for="(item,index) in editableTabs"
         :label="item.title"
         :name="item.name"
       >
-        <el-input placeholder="请输入内容" v-model="input" :disabled="true"></el-input>
+        <el-input
+          class="show"
+          v-if="item.disabled"
+          type="textarea"
+          :rows="30"
+          placeholder="请输入内容"
+          v-model="input"
+        ></el-input>
+        <div v-else class="content">
+          <pre v-html="item.content"></pre>
+        </div>
+        <el-button
+          type="primary"
+          v-if="item.disabled"
+          @click="submit(item,index)"
+          style="float:right;margin-top:20px"
+        >保存</el-button>
+        <el-button
+          type="primary"
+          v-if="!item.disabled"
+          @click="editor(item,index)"
+          style="float:right;margin-top:20px"
+        >编辑</el-button>
       </el-tab-pane>
     </el-tabs>
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+      <el-input v-model="title" placeholder="请输入帮助标题"></el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addTilte">确 定</el-button>
+      </span>
+    </el-dialog>
     <!--  <div style="overflow-y:scroll;height:100%;font-szie:14px;">
       # 自动化平台帮助
       <br />
@@ -81,56 +116,176 @@
 <script>
 export default {
   name: "HelpMenu",
+  inject: ["reload"], //注入
   data() {
     return {
-      editableTabsValue: "2",
-      editableTabs: [
-        {
-          title: "Tab 1",
-          name: "1",
-          content: "Tab 1 content",
-        },
-        {
-          title: "Tab 2",
-          name: "2",
-          content: "Tab 2 content",
-        },
-      ],
-      tabIndex: 2,
+      editors: false,
+      dialogVisible: false,
+      input: "",
+      title: "",
+      editableTabsValue: "0",
+      textarea: "<p>hello world</p>",
+      newTabName: "",
+      editableTabs: [],
+      tabIndex: 0,
     };
   },
   methods: {
+    numToStr(num) {
+      num = num.toString();
+      return num;
+    },
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then((_) => {
+          done();
+        })
+        .catch((_) => {});
+    },
+    addTilte() {
+      let that = this;
+      let newTabName = ++this.tabIndex + "";
+      that.editableTabs.push({
+        title: this.title,
+        name: newTabName,
+        content: "",
+        disabled: true,
+      });
+      this.editableTabsValue = newTabName;
+      that.dialogVisible = false;
+      // that.editableTabsValue = newTabName;
+    },
     handleTabsEdit(targetName, action) {
+      let that = this;
       if (action === "add") {
-        let newTabName = ++this.tabIndex + "";
-        this.editableTabs.push({
-          title: "New Tab",
-          name: newTabName,
-          content: "New Tab content",
-        });
-        this.editableTabsValue = newTabName;
+        this.editors = false;
+        this.dialogVisible = true;
+        this.title = "";
+        this.input = "";
       }
       if (action === "remove") {
         let tabs = this.editableTabs;
         let activeName = this.editableTabsValue;
-        if (activeName === targetName) {
-          tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
-              if (nextTab) {
-                activeName = nextTab.name;
+        this.$confirm("此操作将永久删除该帮助文档, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }).then(() => {
+          if (activeName === targetName) {
+            tabs.forEach((tab, index) => {
+              if (tab.name === targetName) {
+                let nextTab = tabs[index + 1] || tabs[index - 1];
+                if (nextTab) {
+                  activeName = nextTab.name;
+                }
+                this.$api.helpDelete(tab.id).then((res) => {
+                  if (res.success) {
+                    this.$notify.success("文档删除成功");
+                  }
+                });
+              } else {
+                tab.disabled = false;
               }
-            }
-          });
-        }
-
-        this.editableTabsValue = activeName;
-        this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
+            });
+          }
+          this.editableTabsValue = activeName;
+          this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
+        });
       }
     },
+    handleClick(tab, event) {
+      let title = tab.label;
+      this.editableTabs.forEach((item, index) => {
+        if (title == item.title) {
+          item.disabled = false;
+        } else {
+          item.disabled = true;
+        }
+      });
+      this.title = tab.label;
+    },
+    editor(val, index) {
+      val.disabled = true;
+      this.editors = true;
+      this.input = this.editableTabs[index].input;
+    },
+    submit(val, index) {
+      if (this.editors) {
+        //编辑
+        let params = {
+          title: this.editableTabs[index].title,
+          content: this.input,
+        };
+        this.$api.helpEditor(val.id, params).then((res) => {
+          if (res.status == 200) {
+            this.$notify.success("帮助文档修改成功");
+            val.disabled = false;
+            this.reload();
+          }
+        });
+      } else {
+        //新增
+        let params = {
+          title: this.title,
+          content: this.input,
+        };
+        this.$api.helpAdd(params).then((res) => {
+          if (res.status == 200) {
+            this.$notify.success("帮助文档添加成功");
+            val.disabled = false;
+            this.reload();
+          }
+        });
+      }
+    },
+    helpListInfo() {
+      console.log(this.$api);
+      this.$api.helpList().then((res) => {
+        if (res.status == 200) {
+          let datalist = res.data;
+          let arr = [];
+          datalist.forEach((item, index) => {
+            let content = item.content
+              .replace(/[\r\n]/g, "</br>")
+              .replace(/\s/g, " ");
+            arr.push({
+              title: item.title,
+              input: item.content,
+              content: content,
+              id: item.id,
+              name: this.numToStr(index),
+              disabled: false,
+            });
+          });
+          this.editableTabs = arr;
+          this.tabIndex = arr.length;
+        }
+      });
+    },
+  },
+  mounted() {
+    this.helpListInfo();
   },
 };
 </script>
 
 <style  scoped>
+::-webkit-scrollbar {
+  /*隐藏滚轮*/
+  display: none;
+}
+.content {
+  height: 660px;
+  overflow: scroll;
+  border: 1px solid #e4e7ed;
+  border-radius: 0 0 6px 6px;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.show {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
+}
 </style>

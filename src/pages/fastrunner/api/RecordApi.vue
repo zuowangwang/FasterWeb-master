@@ -67,6 +67,14 @@
             :before-upload="beforeUpload"
           />
           <el-button
+            v-if="!addAPIFlag "
+            type="primary"
+            size="small"
+            icon="el-icon-document"
+            @click="downloads =!downloads"
+            style="margin-left: 0px"
+          >下载模版</el-button>
+          <el-button
             v-if="!addAPIFlag"
             style="margin-left: 20px"
             type="primary"
@@ -164,19 +172,21 @@
           :project="$route.params.id"
           :config="currentConfig"
           :host="currentHost"
+          :downloads='downloads'
           :del="del"
+          ref="ApiList"
           :back="back"
           :run="run"
         ></api-list>
       </el-main>
-      <el-dialog title="接口信息录入详情" width="80%" :visible.sync="tableHeaderVisible">
+      <el-dialog :title="testCaseTitle" width="80%" :visible.sync="tableHeaderVisible">
         <div class="table-content">
           <el-table :data="tableData" border highlight-current-row style="overfllow-y:scroll">
             <el-table-column v-for="item of tableHeader" :key="item" :prop="item" :label="item" />
           </el-table>
         </div>
-        <div style="text-align: right;margin:20px;font-size:18px;">共计:{{tableData.length-1}}条</div>
         <div slot="footer" class="dialog-footer">
+          <div class="total" style="font-size:18px;">共计:{{tableData.length-1}}条</div>
           <el-button @click="tableHeaderVisible = false">取 消</el-button>
           <el-button type="primary" @click="uploadSuccess()">确 定</el-button>
         </div>
@@ -285,6 +295,7 @@ export default {
       back: false,
       del: false,
       run: false,
+      downloads:false,
       tableHeaderVisible: false,
       response: {
         id: "",
@@ -360,6 +371,7 @@ export default {
         ],
       },
       radio: "根节点",
+      testCaseTitle:'',
       addAPIFlag: false,
       treeId: "",
       maxId: "",
@@ -376,7 +388,8 @@ export default {
       tableHeader: [],
     };
   },
-  methods: {
+ inject: ['reload'], //注入
+ methods: {
     beforeUpload(file) {
       const isLt1M = file.size / 1024 / 1024 < 1;
 
@@ -423,15 +436,18 @@ export default {
           let hooks = {};
           var objs = Object.keys(urlList[b]).reduce((newData, key) => {
             let newKey = keyList[key] || key;
-            urlList[b][key] = this.chineseChar2englishChar(urlList[b][key]);
+            if(newKey!='times'){
+               urlList[b][key] = this.chineseChar2englishChar(urlList[b][key]);
+            }
             if (
               newKey == "json" ||
               newKey == "form" ||
               newKey == "params" ||
-              newKey == "files"
+              newKey == "files"||
+              newKey=='json_data'
             ) {
               //  request[newKey]= JSON.parse(urlList[b][key])
-              if (newKey == "json") {
+              if (newKey == "json" || newKey=='json_data') {
                 request["json"] = JSON.parse(urlList[b][key]);
               } else if (newKey == "form") {
                 request["form"] = JSON.parse(urlList[b][key]);
@@ -481,8 +497,10 @@ export default {
         params.interfaces = dataObj;
         this.$api.addAPI(params).then((res) => {
           if (res.success) {
-            this.$notify.success("文件上传成功");
+            this.$notify.success("测试用例上传成功");
             this.tableHeaderVisible = false;
+            this.$refs.ApiList.getAPIList()//列表刷新
+            //  this.reload() //局部刷新
           }
         });
       }
@@ -542,6 +560,7 @@ export default {
             this.dataTree = resp["tree"];
             this.maxId = resp["max"];
             this.$notify.success("更新成功");
+            //  this.reload() //局部刷新
           } else {
             this.$message.error(resp["msg"]);
           }
@@ -593,6 +612,9 @@ export default {
     },
 
     handleNodeClick(node, data) {
+      debugger
+      let title = data.parent.label? data.parent.label+'模块 '+node.label+'子模块 导入测试用例':node.label+'模块   导入测试用例'
+      this.testCaseTitle = this.$store.state.headTitle+', '+title
       this.addAPIFlag = false;
       this.currentNode = node;
       this.data = data;
@@ -648,5 +670,11 @@ export default {
   height: 55vh;
   overflow-x: hidden;
   overflow-y: scroll;
+}
+.dialog-footer>.total{
+  line-height: 40.23px;
+  width: 120px;
+  margin-right: 20px;
+  display: inline-block;
 }
 </style>
