@@ -66,6 +66,16 @@
             :on-success="handleSuccess"
             :before-upload="beforeUpload"
           />
+
+          <el-button
+            :disabled="currentNode === '' || addAPIFlag "
+            type="info"
+            size="small"
+            icon="el-icon-download"
+            @click="DownloadAsApi =!DownloadAsApi"
+            style="margin-left: 0px"
+          >下载项目所有api</el-button>
+
           <el-button
             v-if="!addAPIFlag "
             type="primary"
@@ -74,6 +84,8 @@
             @click="downloads =!downloads"
             style="margin-left: 0px"
           >下载模版</el-button>
+
+
           <el-button
             v-if="!addAPIFlag"
             style="margin-left: 20px"
@@ -93,7 +105,19 @@
             size="mini"
             @click="del = !del"
             title="批量删除"
-          ></el-button>&nbsp;环境:
+          ></el-button>
+          
+          <el-button
+            v-if="!addAPIFlag"
+            type="warning"
+            icon="el-icon-document-copy"
+            circle
+            size="mini"
+            @click="move = !move"
+            title="批量移动"
+          ></el-button>
+          
+          &nbsp;环境:
           <el-select placeholder="请选择" size="small" v-model="currentHost" style="width: 120px">
             <el-option
               v-for="item in hostOptions"
@@ -173,10 +197,12 @@
           :config="currentConfig"
           :host="currentHost"
           :downloads='downloads'
+          :DownloadAsApi='DownloadAsApi'
           :del="del"
           ref="ApiList"
           :back="back"
           :run="run"
+          :move="move"
         ></api-list>
       </el-main>
       <el-dialog :title="testCaseTitle" width="80%" :visible.sync="tableHeaderVisible">
@@ -295,7 +321,9 @@ export default {
       back: false,
       del: false,
       run: false,
+      move:false,
       downloads:false,
+      DownloadAsApi:false,
       tableHeaderVisible: false,
       response: {
         id: "",
@@ -612,7 +640,7 @@ export default {
     },
 
     handleNodeClick(node, data) {
-      debugger
+      
       let title = data.parent.label? data.parent.label+'模块 '+node.label+'子模块 导入测试用例':node.label+'模块   导入测试用例'
       this.testCaseTitle = this.$store.state.headTitle+', '+title
       this.addAPIFlag = false;

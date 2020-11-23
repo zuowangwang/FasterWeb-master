@@ -359,6 +359,7 @@ export default {
       require: true,
     },
     run: Boolean,
+    move: Boolean,
     back: Boolean,
     node: {
       require: true,
@@ -368,6 +369,7 @@ export default {
     },
     del: Boolean,
     downloads: Boolean,
+    DownloadAsApi: Boolean,
   },
   data() {
     return {
@@ -407,11 +409,37 @@ export default {
       this.reportName = "";
       this.getTree();
     },
+    
+    DownloadAsApi(){
+      let filename = '渲染.xlsx'
+      let relation = parseInt(this.node)
+      let project = parseInt(this.project)
+      let params = {
+          relation,
+          project ,
+      }
+      this.$api.DownloadAsApi(params).then((resp) => {
+          let url = window.URL.createObjectURL(new Blob([resp.data]));
+          let link = document.createElement("a");
+          link.style.display = "none";
+          link.href = url;
+          link.setAttribute("download", filename);
+          document.body.appendChild(link);
+          link.click();
+        })
+        .catch((error) => {
+          this.$notify.error("文件下载失败");
+        });
+      
+
+    },
     downloads() {
       let that = this;
       let data = [{ name: "", url: "" }, {}];
+      
       data.forEach((item, index) => {
         if (index == 0) {
+          item["id"] = "id";
           item["name"] = "name";
           item["method"] = "method";
           item["url"] = "url";
@@ -427,6 +455,7 @@ export default {
           item["setup_hooks"] = 'setup_hooks';
           item["teardown_hooks"] = 'teardown_hooks';
         } else {
+          item["id"] = "";
           item["name"] = "测试模板";
           item["method"] = "POST";
           item["url"] = "/api/rendering/user/userLogin";
@@ -483,6 +512,23 @@ export default {
         });
       }
     },
+
+    move() {
+      if (this.selectAPI.length !== 0) {
+        this.dialogVisibleInfo = true;
+        
+        
+      } else {
+        this.$notify.warning({
+          message: "请至少选择一个接口",
+        });
+      }
+    },
+
+
+
+
+
   },
 
   methods: {
@@ -493,6 +539,7 @@ export default {
       let that = this;
       import("@/vendor/Export2Excel").then((excel) => {
         const tHeader = [
+          "api的id",
           "接口名称-必填",
           "请求方式-必填",
           "请求地址-必填",
@@ -509,6 +556,7 @@ export default {
           "Hooks请求时候执行的脚本方法-请求后",
         ];
         const filterVal = [
+          "id",
           "name",
           "method",
           "url",
@@ -536,6 +584,7 @@ export default {
     },
     conversionList(data) {
       data.forEach((item, index) => {
+        item["id"] = item.id;
         item["name"] = item.name;
         item["method"] = item.method;
         item["url"] = item.url;
@@ -559,101 +608,43 @@ export default {
     handleDragEnd() {
       // this.updateTree(false);
     },
-    addAPI() {
-      let data = this.infoSaveObj;
-      let arr = data.body.header;
-      let json = JSON.parse(data.body.request.json_data);
-      let obj = {};
-      let desc = {};
-      arr.forEach((item) => {
-        obj[item.key] = item.value;
-        desc[item.key] = item.desc || "";
-      });
-      data.body.header = { desc: desc, header: obj };
-      data.body.validate = {
-        validate:[],
-      };
-      data.body.variables = {
-        variables:[],
-        desc:{},
-      };
-      data.body.request = {
-        params: {
-          params: {},
-          desc: {},
-        },
-        files: {
-          files: {},
-          desc: {},
-        },
-        form: {
-          data: {},
-          desc: {},
-        },
-      };
-      data.body.request.json = json;
-      let extract =[];
-      let descs={}
-      data.body.extract.forEach((item)=>{
-      let {desc,key,value} = item
-        descs={desc:item.desc}
-        extract.push({[key]:value})
-      }) 
-      data.body.extract = {
-        extract,
-        desc:descs,
-      };
-      data.body.hooks = {
-        setup_hooks: [],
-        teardown_hooks: [],
-      };
-      this.$api
-        .addAPI({
-          header: data.body.header,
-          request: data.body.request,
-          extract: data.body.extract,
-          validate: data.body.validate,
-          variables: data.body.variables,
-          hooks: data.body.hooks,
-          url: data.url,
-          method: data.method,
-          name: data.name,
-          times: data.body.times,
-          nodeId: this.nodeId,
-          project: data.project.toString(),
-        })
-        .then((resp) => {
-          if (resp.success) {
-            this.$notify.success(resp.msg);
-            this.$emit("addSuccess");
-            location.reload();
-            this.dialogVisibleInfo = false;
-          } else {
-            this.$notify.error(resp.msg);
-          }
-        });
-    },
     openHandleClik() {
-      this.addAPI();
+      // this.addAPI();
+      
+      let data = this.infoSaveObj;
+      let datalist  = this.selectAPI;
+      let project=''
+      let relation = this.nodeId
+      let id=''
+      let ids = []
+      if (data.id && datalist.length == 0){
+          ids.push(data.id)
+          project = data.project
+      }else if (datalist.length>1){
+          for (let i in datalist){
+          ids.push(datalist[i].id)
+          project = datalist[0].project
+      }
+      }
+      let params = {
+        project,
+        relation,
+        ids
+      }
+      this.$api.SavaAsApi(params).then(res => {
+        // console.log(res)
+        if (res.data.code == '0044'){
+          this.$notify.success("更新成功");
+          this.trigger = true;
+          this.dialogVisibleInfo = false;
+          this.checked = false;
+          this.getAPIList();
+
+        }
+
+      })
     },
-    // updateTree(mode) {
-    //   this.$api
-    //     .updateTree(this.treeId, {
-    //       ody: this.dataTrees,
-    //       node: this.currentNode.id,
-    //       mode: mode,
-    //       type: 1,
-    //     })
-    //     .then((resp) => {
-    //       if (resp["success"]) {
-    //         this.dataTrees = resp["tree"];
-    //         this.maxId = resp["max"];
-    //         this.$notify.success("更新成功");
-    //       } else {
-    //         this.$message.error(resp["msg"]);
-    //       }
-    //     });
-    // },
+   
     handleNodeClick(node, data) {
       this.addAPIFlag = false;
       this.currentNode = node;
