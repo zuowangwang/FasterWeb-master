@@ -8,8 +8,8 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
 }else{
     var base_Url = window.location.protocol + '//' + window.location.host ;
 }
-// export const baseUrl = base_Url;
-export const baseUrl = 'http://10.51.96.118:8000';
+export const baseUrl = base_Url;
+// export const baseUrl = 'http://10.51.96.118:8000';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = baseUrl;
