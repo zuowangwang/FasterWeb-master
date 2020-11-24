@@ -71,6 +71,7 @@
             :disabled="currentNode === '' || addAPIFlag "
             type="info"
             size="small"
+            title="下载该项目所有api"
             icon="el-icon-download"
             @click="DownloadAsApi =!DownloadAsApi"
             style="margin-left: 0px"
@@ -199,6 +200,7 @@
           :downloads='downloads'
           :DownloadAsApi='DownloadAsApi'
           :del="del"
+          :nodelabel='nodelabel'
           ref="ApiList"
           :back="back"
           :run="run"
@@ -314,6 +316,7 @@ export default {
   },
   data() {
     return {
+      nodelabel:'',
       configOptions: [],
       hostOptions: [],
       currentConfig: "请选择",
@@ -453,6 +456,7 @@ export default {
       let keyArry = {};
       let dataObj = {};
       let params = {};
+
       params.nodeId = this.currentNode.id;
       params.project = this.$route.params.id;
       params.bulk_add = true;
@@ -464,9 +468,9 @@ export default {
           let hooks = {};
           var objs = Object.keys(urlList[b]).reduce((newData, key) => {
             let newKey = keyList[key] || key;
-            if(newKey!='times'){
-               urlList[b][key] = this.chineseChar2englishChar(urlList[b][key]);
-            }
+            // if(newKey!='times'){
+            //    urlList[b][key] = this.chineseChar2englishChar(urlList[b][key]);
+            // }
             if (
               newKey == "json" ||
               newKey == "form" ||
@@ -641,6 +645,7 @@ export default {
 
     handleNodeClick(node, data) {
       
+      this.nodelabel = data.label
       let title = data.parent.label? data.parent.label+'模块 '+node.label+'子模块 导入测试用例':node.label+'模块   导入测试用例'
       this.testCaseTitle = this.$store.state.headTitle+', '+title
       this.addAPIFlag = false;

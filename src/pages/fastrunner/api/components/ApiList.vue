@@ -361,6 +361,7 @@ export default {
     run: Boolean,
     move: Boolean,
     back: Boolean,
+    nodelabel:String,
     node: {
       require: true,
     },
@@ -411,7 +412,10 @@ export default {
     },
     
     DownloadAsApi(){
-      let filename = '渲染.xlsx'
+      let DateTime = new Date();
+      let todaytime = DateTime.getFullYear()+"-" + (DateTime.getMonth()+1) + "-" + DateTime.getDate()
+      +" " + DateTime.getHours() +"：" + DateTime.getMinutes();
+      let filename = this.nodelabel+' api '+todaytime+'.xlsx'
       let relation = parseInt(this.node)
       let project = parseInt(this.project)
       let params = {

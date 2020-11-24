@@ -424,5 +424,5 @@ export const SavaAsApi = (params)=>{
 }
 //下载项目所有api
 export const DownloadAsApi = (params)=>{
-    return axios.put('/api/fastrunner/download/',params).then(res => res)
+    return axios.put('/api/fastrunner/download/',params,{responseType:'blob' })
 }
