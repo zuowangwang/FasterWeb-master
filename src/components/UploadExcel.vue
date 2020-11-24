@@ -3,7 +3,7 @@
     <input ref="excel-upload-input" class="excel-upload-input" type="file" accept=".xlsx, .xls" @change="handleClick">
     <div class="drop" @drop="handleDrop" @dragover="handleDragover" @dragenter="handleDragover">
       <!-- Drop excel file here or -->
-      <el-button :loading="loading" :disabled='addAPIFlag' type="warning" size="small" icon="el-icon-upload" title="只能上传jpg/png/xlsx/xls文件"  @click="handleUpload">
+      <el-button :loading="loading" :disabled='addAPIFlag' type="warning" size="small" icon="el-icon-upload" title="只能上传jpg/png/xlsx/xls文件 如有id则更新对应api"  @click="handleUpload">
         上传测试用例
       </el-button>
     </div>
