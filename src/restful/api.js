@@ -418,9 +418,11 @@ export const helpDelete = (url)=>{
 export const helpEditor = (url,params)=>{
     return axios.patch('/api/fastrunner/help_menu/'+url+'/', params).then(res => res)
 }
+//移动api
 export const SavaAsApi = (params)=>{
     return axios.put('/api/fastrunner/api/',params).then(res => res)
 }
+//下载项目所有api
 export const DownloadAsApi = (params)=>{
     return axios.put('/api/fastrunner/download/',params).then(res => res)
 }
