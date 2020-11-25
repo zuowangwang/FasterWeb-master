@@ -415,7 +415,7 @@ export default {
       let DateTime = new Date();
       let todaytime = DateTime.getFullYear()+"-" + (DateTime.getMonth()+1) + "-" + DateTime.getDate()
       +" " + DateTime.getHours() +"：" + DateTime.getMinutes();
-      let filename = this.nodelabel+' api '+todaytime+'.xlsx'
+      let filename = this.nodelabel+' api '+todaytime+'.xls'
       let relation = parseInt(this.node)
       let project = parseInt(this.project)
       let params = {
@@ -459,25 +459,21 @@ export default {
           item["setup_hooks"] = 'setup_hooks';
           item["teardown_hooks"] = 'teardown_hooks';
         } else {
-          item["id"] = "";
+          item["id"] ="0";
           item["name"] = "测试模板";
           item["method"] = "POST";
           item["url"] = "/api/rendering/user/userLogin";
-          item["header"] =
-            '{ "header": {  "Content-Type": "application/json", "version": " 1.0.0", "Connection": "keep-alive", "Accept": " application/json, text/plain, */*" } }';
+          item["header"] ='{"header":{"Content-Type":"application/json","Accept":"application/json,text/plain"}}';
           item["times"] = "1";
-          item["json"] =
-            '{ "userName": "RD_zuowangwang_test2", "password": "2edf692c26918cc7d11def6ab41bbdffdbecce52"}';
-          item["form"] = '{ "data": {},"desc": {}}';
-          item["params"] = '{"params": {}, "desc": {}}';
-          item["files"] = '{ "files": {}, "desc": {}}';
-          item["extract"] =
-            '{"extract": [ {"userName": "content.data.userName"}],"desc": {"userName": "备注"}}';
-          item["validate"] = '{"validate": [ {"eq": ["content.code", 200]}]}';
-          item["variables"] =
-            '{"variables": [{"zzzz": "zzzz"}],"desc": {"zzzz": "备注"}}';
-          item["setup_hooks"] = '["${cc1()}", "${cc1()}"]';
-          item["teardown_hooks"] = '["${cc1()}", "${cc1()}"]';
+          item["json"] ='{"userName":"RD_zuowangwang_test2","password":"2edf692c26918cc7d11def6ab41bbdffdbecce52"}';
+          item["form"] = '{"data":{},"desc":{}}';
+          item["params"] = '{"params":{},"desc":{}}';
+          item["files"] = '{"files":{},"desc":{}}';
+          item["extract"] ='{"extract":[{"userName":"content.data.userName"}],"desc":{"userName":"备注"}}';
+          item["validate"] = '{"validate":[{"eq":["content.code",200]}]}';
+          item["variables"] ='{"variables":[{"zzzz":"zzzz"}],"desc":{"zzzz":"备注"}}';
+          item["setup_hooks"] = '["${cc1()}"]';
+          item["teardown_hooks"] = '["${cc2()}"]';
         }
       });
       this.list = data;
