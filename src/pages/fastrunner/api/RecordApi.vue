@@ -66,6 +66,27 @@
             :on-success="handleSuccess"
             :before-upload="beforeUpload"
           />
+
+          <el-button
+            :disabled="currentNode === '' || addAPIFlag "
+            type="info"
+            size="small"
+            title="下载该项目所有api"
+            icon="el-icon-download"
+            @click="DownloadAsApi =!DownloadAsApi"
+            style="margin-left: 0px"
+          >下载项目所有api</el-button>
+
+          <el-button
+            v-if="!addAPIFlag "
+            type="primary"
+            size="small"
+            icon="el-icon-document"
+            @click="downloads =!downloads"
+            style="margin-left: 0px"
+          >下载模版</el-button>
+
+
           <el-button
             v-if="!addAPIFlag"
             style="margin-left: 20px"
@@ -85,7 +106,19 @@
             size="mini"
             @click="del = !del"
             title="批量删除"
-          ></el-button>&nbsp;环境:
+          ></el-button>
+          
+          <el-button
+            v-if="!addAPIFlag"
+            type="warning"
+            icon="el-icon-document-copy"
+            circle
+            size="mini"
+            @click="move = !move"
+            title="批量移动"
+          ></el-button>
+          
+          &nbsp;环境:
           <el-select placeholder="请选择" size="small" v-model="currentHost" style="width: 120px">
             <el-option
               v-for="item in hostOptions"
@@ -164,9 +197,14 @@
           :project="$route.params.id"
           :config="currentConfig"
           :host="currentHost"
+          :downloads='downloads'
+          :DownloadAsApi='DownloadAsApi'
           :del="del"
+          :nodelabel='nodelabel'
+          ref="ApiList"
           :back="back"
           :run="run"
+          :move="move"
         ></api-list>
       </el-main>
       <el-dialog :title="testCaseTitle" width="80%" :visible.sync="tableHeaderVisible">
@@ -278,6 +316,7 @@ export default {
   },
   data() {
     return {
+      nodelabel:'',
       configOptions: [],
       hostOptions: [],
       currentConfig: "请选择",
@@ -285,6 +324,9 @@ export default {
       back: false,
       del: false,
       run: false,
+      move:false,
+      downloads:false,
+      DownloadAsApi:false,
       tableHeaderVisible: false,
       response: {
         id: "",
@@ -377,7 +419,8 @@ export default {
       tableHeader: [],
     };
   },
-  methods: {
+ inject: ['reload'], //注入
+ methods: {
     beforeUpload(file) {
       const isLt1M = file.size / 1024 / 1024 < 1;
 
@@ -413,6 +456,7 @@ export default {
       let keyArry = {};
       let dataObj = {};
       let params = {};
+
       params.nodeId = this.currentNode.id;
       params.project = this.$route.params.id;
       params.bulk_add = true;
@@ -424,17 +468,18 @@ export default {
           let hooks = {};
           var objs = Object.keys(urlList[b]).reduce((newData, key) => {
             let newKey = keyList[key] || key;
-            if(newKey!='times'){
-               urlList[b][key] = this.chineseChar2englishChar(urlList[b][key]);
-            }
+            // if(newKey!='times'){
+            //    urlList[b][key] = this.chineseChar2englishChar(urlList[b][key]);
+            // }
             if (
               newKey == "json" ||
               newKey == "form" ||
               newKey == "params" ||
-              newKey == "files"
+              newKey == "files"||
+              newKey=='json_data'
             ) {
               //  request[newKey]= JSON.parse(urlList[b][key])
-              if (newKey == "json") {
+              if (newKey == "json" || newKey=='json_data') {
                 request["json"] = JSON.parse(urlList[b][key]);
               } else if (newKey == "form") {
                 request["form"] = JSON.parse(urlList[b][key]);
@@ -484,8 +529,10 @@ export default {
         params.interfaces = dataObj;
         this.$api.addAPI(params).then((res) => {
           if (res.success) {
-            this.$notify.success("文件上传成功");
+            this.$notify.success("测试用例上传成功");
             this.tableHeaderVisible = false;
+            this.$refs.ApiList.getAPIList()//列表刷新
+            //  this.reload() //局部刷新
           }
         });
       }
@@ -545,6 +592,7 @@ export default {
             this.dataTree = resp["tree"];
             this.maxId = resp["max"];
             this.$notify.success("更新成功");
+            //  this.reload() //局部刷新
           } else {
             this.$message.error(resp["msg"]);
           }
@@ -596,7 +644,10 @@ export default {
     },
 
     handleNodeClick(node, data) {
-      this.testCaseTitle = data.parent.label?data.parent.label+'项目   '+node.label+'分组 录入测试用例' :node.label+'项目   录入测试用例'
+      
+      this.nodelabel = data.label
+      let title = data.parent.label? data.parent.label+'模块 '+node.label+'子模块 导入测试用例':node.label+'模块   导入测试用例'
+      this.testCaseTitle = this.$store.state.headTitle+', '+title
       this.addAPIFlag = false;
       this.currentNode = node;
       this.data = data;

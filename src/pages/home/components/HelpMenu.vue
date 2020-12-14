@@ -1,5 +1,5 @@
 <template>
-  <div style="padding:40px;box-sizing:border-box;height:1000px;overflow:fidden">
+  <div style="padding:40px;box-sizing:border-box;width:80%;overflow:fidden">
     <el-tabs
       v-model="editableTabsValue"
       type="card"
@@ -14,16 +14,16 @@
         :name="item.name"
       >
         <el-input
+          class="show"
           v-if="item.disabled"
           type="textarea"
-          :rows="40"
+          :rows="30"
           placeholder="请输入内容"
           v-model="input"
         ></el-input>
         <div v-else class="content">
-          <div v-html="item.content"></div>
+          <pre v-html="item.content"></pre>
         </div>
-
         <el-button
           type="primary"
           v-if="item.disabled"
@@ -33,7 +33,7 @@
         <el-button
           type="primary"
           v-if="!item.disabled"
-          @click="editor(item)"
+          @click="editor(item,index)"
           style="float:right;margin-top:20px"
         >编辑</el-button>
       </el-tab-pane>
@@ -116,6 +116,7 @@
 <script>
 export default {
   name: "HelpMenu",
+  inject: ["reload"], //注入
   data() {
     return {
       editors: false,
@@ -157,36 +158,39 @@ export default {
     handleTabsEdit(targetName, action) {
       let that = this;
       if (action === "add") {
+        this.editors = false;
         this.dialogVisible = true;
         this.title = "";
-        this.input =''
+        this.input = "";
       }
       if (action === "remove") {
         let tabs = this.editableTabs;
         let activeName = this.editableTabsValue;
-        if (activeName === targetName) {
-          tabs.forEach((tab, index) => {
-            if (tab.name === targetName) {
-              let nextTab = tabs[index + 1] || tabs[index - 1];
-              if (nextTab) {
-                activeName = nextTab.name;
-              }
-            }
-          });
-          this.editableTabs.forEach((item) => {
-            if (item.id) {
-              if (targetName == item.name) {
-                this.$api.helpDelete(item.id).then((res) => {
+        this.$confirm("此操作将永久删除该帮助文档, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }).then(() => {
+          if (activeName === targetName) {
+            tabs.forEach((tab, index) => {
+              if (tab.name === targetName) {
+                let nextTab = tabs[index + 1] || tabs[index - 1];
+                if (nextTab) {
+                  activeName = nextTab.name;
+                }
+                this.$api.helpDelete(tab.id).then((res) => {
                   if (res.success) {
                     this.$notify.success("文档删除成功");
                   }
                 });
+              } else {
+                tab.disabled = false;
               }
-            }
-          });
-        }
-        this.editableTabsValue = activeName;
-        this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
+            });
+          }
+          this.editableTabsValue = activeName;
+          this.editableTabs = tabs.filter((tab) => tab.name !== targetName);
+        });
       }
     },
     handleClick(tab, event) {
@@ -200,10 +204,10 @@ export default {
       });
       this.title = tab.label;
     },
-    editor(val) {
+    editor(val, index) {
       val.disabled = true;
       this.editors = true;
-      this.input = val.content;
+      this.input = this.editableTabs[index].input;
     },
     submit(val, index) {
       if (this.editors) {
@@ -216,7 +220,7 @@ export default {
           if (res.status == 200) {
             this.$notify.success("帮助文档修改成功");
             val.disabled = false;
-            this.helpListInfo();
+            this.reload();
           }
         });
       } else {
@@ -229,20 +233,25 @@ export default {
           if (res.status == 200) {
             this.$notify.success("帮助文档添加成功");
             val.disabled = false;
-            this.helpListInfo();
+            this.reload();
           }
         });
       }
     },
     helpListInfo() {
+      console.log(this.$api);
       this.$api.helpList().then((res) => {
         if (res.status == 200) {
           let datalist = res.data;
           let arr = [];
           datalist.forEach((item, index) => {
+            let content = item.content
+              .replace(/[\r\n]/g, "</br>")
+              .replace(/\s/g, " ");
             arr.push({
               title: item.title,
-              content: item.content,
+              input: item.content,
+              content: content,
               id: item.id,
               name: this.numToStr(index),
               disabled: false,
@@ -261,8 +270,22 @@ export default {
 </script>
 
 <style  scoped>
+::-webkit-scrollbar {
+  /*隐藏滚轮*/
+  display: none;
+}
 .content {
-  height: 800px;
+  height: 660px;
   overflow: scroll;
+  border: 1px solid #e4e7ed;
+  border-radius: 0 0 6px 6px;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+.show {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-all;
 }
 </style>

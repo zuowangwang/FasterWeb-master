@@ -8,8 +8,8 @@ if (window.location.hostname === 'localhost' || window.location.hostname === '12
 }else{
     var base_Url = window.location.protocol + '//' + window.location.host ;
 }
-// export const baseUrl = base_Url;
-export const baseUrl = 'http://10.51.96.118:8000';
+export const baseUrl = base_Url;
+// export const baseUrl = 'http://10.51.96.118:8000';
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = baseUrl;
@@ -408,7 +408,7 @@ export const helpAdd = (params)=>{
 }
 //帮助文档查询
 export const helpList = ()=>{
-    return axios.get('/api/fastrunner/help_menu/',).then(res => res)
+    return axios.get('/api/fastrunner/help_menu/').then(res => res)
 }
 //删除帮助文档
 export const helpDelete = (url)=>{
@@ -417,4 +417,12 @@ export const helpDelete = (url)=>{
 //编辑帮助文档
 export const helpEditor = (url,params)=>{
     return axios.patch('/api/fastrunner/help_menu/'+url+'/', params).then(res => res)
+}
+//移动api
+export const SavaAsApi = (params)=>{
+    return axios.put('/api/fastrunner/api/',params).then(res => res)
+}
+//下载项目所有api
+export const DownloadAsApi = (params)=>{
+    return axios.put('/api/fastrunner/download/',params,{responseType:'blob' })
 }

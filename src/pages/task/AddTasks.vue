@@ -18,7 +18,7 @@
               <el-input
                 clearable
                 v-model="ruleForm.crontab"
-                placeholder="请输入crontab表达式，例如 2 12 * * *"
+                placeholder="请输入crontab表达式，例如 (每天12点2分执行  2 12 * * * ) MHWMY "
                 size="medium"
               ></el-input>
             </el-form-item>

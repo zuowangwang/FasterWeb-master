@@ -287,7 +287,7 @@ export default {
   name: "EditTest",
   watch: {
     config() {
-      const temp = { body: { name: this.config, method: "config" } };
+      const temp = { body: { name: this.config, method: "config" }, name: this.config, method: "config"};
       if (
         (this.testData.length === 0 ||
           this.testData[0].body.method !== "config") &&
