@@ -11,9 +11,10 @@
             ></el-checkbox>
           </el-col>
 
-          <el-col :span="7" style="margin-left: 0px">
+          <el-col :span="8
+          " style="margin-left: 0px">
             <el-input
-              placeholder="请输入接口名称"
+              placeholder="请输入接口名称或者URL"
               clearable
               v-model="search"
               @clear="closeList()"
@@ -21,7 +22,7 @@
               <el-button
                 slot="append"
                 icon="el-icon-search"
-                @click="getAPIList"
+                @click="api"
               ></el-button>
             </el-input>
           </el-col>
@@ -410,7 +411,7 @@ export default {
       this.reportName = "";
       this.getTree();
     },
-    
+
     DownloadAsApi(){
       let DateTime = new Date();
       let todaytime = DateTime.getFullYear()+"-" + (DateTime.getMonth()+1) + "-" + DateTime.getDate()
@@ -434,13 +435,13 @@ export default {
         .catch((error) => {
           this.$notify.error("文件下载失败");
         });
-      
+
 
     },
     downloads() {
       let that = this;
       let data = [{ name: "", url: "" }, {}];
-      
+
       data.forEach((item, index) => {
         if (index == 0) {
           item["id"] = "id";
@@ -516,8 +517,8 @@ export default {
     move() {
       if (this.selectAPI.length !== 0) {
         this.dialogVisibleInfo = true;
-        
-        
+
+
       } else {
         this.$notify.warning({
           message: "请至少选择一个接口",
@@ -610,7 +611,7 @@ export default {
     },
     openHandleClik() {
       // this.addAPI();
-      
+
       let data = this.infoSaveObj;
       let datalist  = this.selectAPI;
       let project=''
@@ -644,7 +645,7 @@ export default {
 
       })
     },
-   
+
     handleNodeClick(node, data) {
       this.addAPIFlag = false;
       this.currentNode = node;

@@ -76,7 +76,7 @@ export default new Router({
                     component: DebugTalk,
                     meta: {
                         title: '编辑驱动',
-                        requireAuth: true,
+                        // requireAuth: true,
                     }
                 },
                 {

@@ -107,7 +107,7 @@
             @click="del = !del"
             title="批量删除"
           ></el-button>
-          
+
           <el-button
             v-if="!addAPIFlag"
             type="warning"
@@ -117,7 +117,7 @@
             @click="move = !move"
             title="批量移动"
           ></el-button>
-          
+
           &nbsp;环境:
           <el-select placeholder="请选择" size="small" v-model="currentHost" style="width: 120px">
             <el-option
@@ -551,7 +551,11 @@ export default {
     },
 
     getTree() {
-      this.$api
+    //   const resp = {"tree":[{"id":24,"label":"首页","children":[]},{"id":1,"label":"管理员登录","children":[]},{"id":18,"label":"作业管理","children":[{"id":19,"label":"节点机分布概览","children":[]},{"id":20,"label":"运行的分析作业","children":[]},{"id":21,"label":"完成的分析作业","children":[]},{"id":22,"label":"预处理作业","children":[]},{"id":23,"label":"运行的渲染作业","children":[]},{"id":48,"label":"完成的渲染作业","children":[]}]},{"id":25,"label":"用户管理","children":[{"id":27,"label":"用户详情","children":[]},{"id":28,"label":"人工注册","children":[]},{"id":29,"label":"用户充值与消费明细","children":[]},{"id":30,"label":"效果图会员升级记录","children":[]},{"id":31,"label":"学生认证","children":[]},{"id":32,"label":"代理商申请","children":[]},{"id":33,"label":"客户端意见反馈","children":[]}]},{"id":26,"label":"包机包项目明细","children":[{"id":34,"label":"包机明细","children":[]},{"id":35,"label":"包项目明细","children":[]},{"id":36,"label":"节点机租赁明细","children":[]}]},{"id":37,"label":"节点机管理","children":[{"id":44,"label":"渲染节点机列表","children":[]},{"id":45,"label":"租赁节点机列表","children":[]}]},{"id":38,"label":"员工管理","children":[{"id":46,"label":"权限管理","children":[]},{"id":47,"label":"员工列表","children":[]},{"id":49,"label":"部门管理","children":[]},{"id":50,"label":"代理列表","children":[]}]},{"id":39,"label":"配置管理","children":[{"id":206,"label":"汇率表","children":[]},{"id":207,"label":"软件配置","children":[{"id":226,"label":"公告","children":[]},{"id":227,"label":"软件","children":[]},{"id":228,"label":"插件","children":[]},{"id":229,"label":"软件费用","children":[]}]},{"id":208,"label":"约束配置","children":[]},{"id":209,"label":"渲染脚本配置","children":[]},{"id":210,"label":"调度配置","children":[]},{"id":211,"label":"渲染券配置","children":[]},{"id":212,"label":"错误信息列表配置","children":[]},{"id":213,"label":"数据字典","children":[]},{"id":214,"label":"平台","children":[]},{"id":215,"label":"值班日历","children":[]},{"id":217,"label":"员工公告","children":[]},{"id":218,"label":"客户端推广通知","children":[]},{"id":220,"label":"客户端系统通知","children":[]},{"id":221,"label":"营销活动设置","children":[]},{"id":222,"label":"奖品池","children":[]},{"id":223,"label":"微信公众号自动回复","children":[]}]},{"id":40,"label":"传输配置","children":[{"id":258,"label":"引擎列表","children":[]},{"id":259,"label":"线路配置","children":[]},{"id":260,"label":"aspera账户配置","children":[]}]},{"id":41,"label":"平台监控","children":[{"id":261,"label":"操作记录","children":[]},{"id":262,"label":"注册来源统计","children":[]},{"id":263,"label":"分享连接统计","children":[]},{"id":264,"label":"卡帧监控","children":[]},{"id":266,"label":"消息中心","children":[]}]},{"id":42,"label":"存储管理","children":[{"id":267,"label":"存储概览","children":[]},{"id":268,"label":"清理管理","children":[]},{"id":271,"label":"存储管理","children":[]}]},{"id":43,"label":"财务报销","children":[]},{"id":276,"label":"财务统计","children":[]}],"id":40,"success":true,"max":319}
+    //   this.dataTree = resp["tree"];
+    //   this.treeId = resp["id"];
+    //   this.maxId = resp["max"];
+     this.$api
         .getTree(this.$route.params.id, { params: { type: 1 } })
         .then((resp) => {
           this.dataTree = resp["tree"];
@@ -560,6 +564,7 @@ export default {
         });
     },
     getConfig() {
+    //   this.confirmOptions = [{"id":32,"name":"测试环境后管地址"},{"id":31,"name":"正式环境后管地址"}]
       this.$api.getAllConfig(this.$route.params.id).then((resp) => {
         this.configOptions = resp;
         this.configOptions.push({
@@ -569,6 +574,11 @@ export default {
     },
 
     getHost() {
+    //   const resp = {"count":2,"next":null,"previous":null,"results":[{"id":7,"hostInfo":[],"create_time":"2020-08-26T16:07:38.868108","update_time":"2020-08-26T16:07:38.868156","name":"渲染平台后台正式环境","base_url":"https://admin.renderbus.com","project":14},{"id":6,"hostInfo":[],"create_time":"2020-08-26T16:07:23.058216","update_time":"2020-08-26T16:07:23.058303","name":"渲染平台后台测试环境","base_url":"https://admin-pre.renderbus.com","project":14}]}
+    //   this.hostOptions = resp["results"];
+    //   this.hostOptions.push({
+    //     name: "请选择",
+    //   });
       this.$api
         .hostList({ params: { project: this.$route.params.id } })
         .then((resp) => {
@@ -644,7 +654,7 @@ export default {
     },
 
     handleNodeClick(node, data) {
-      
+
       this.nodelabel = data.label
       let title = data.parent.label? data.parent.label+'模块 '+node.label+'子模块 导入测试用例':node.label+'模块   导入测试用例'
       this.testCaseTitle = this.$store.state.headTitle+', '+title
