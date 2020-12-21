@@ -22,7 +22,7 @@
               <el-button
                 slot="append"
                 icon="el-icon-search"
-                @click="api"
+                @click="getAPIList"
               ></el-button>
             </el-input>
           </el-col>
